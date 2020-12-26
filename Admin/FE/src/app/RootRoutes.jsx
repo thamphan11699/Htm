@@ -1,0 +1,57 @@
+import React from "react";
+import { Redirect } from "react-router-dom";
+
+import dashboardRoutes from "./views/dashboard/DashboardRoutes";
+import utilitiesRoutes from "./views/utilities/UtilitiesRoutes";
+import sessionRoutes from "./views/sessions/SessionRoutes";
+import materialRoutes from "./views/material-kit/MaterialRoutes";   
+import formsRoutes from "./views/forms/FormsRoutes";  
+import pageLayoutRoutes from "./views/page-layouts/PageLayoutRoutees";  
+import datatablePageRootes from "./views/MDBDataTable/DatatablePageRootes";
+import tablePageRoutes from "./views/MDBDataTable/TablePageRoutes";
+import homeRoutes from "./views/home/HomeRoutes";
+import otherRoutes from "./views/others/OtherRoutes"; 
+import scrumBoardRoutes from "./views/scrum-board/ScrumBoardRoutes";  
+import RedirectToLandingPageRoutes from "./views/HomePage/RedirectToLandingPageRoutes"; 
+import ProductRoutes from "./views/Product/ProductRoutes";   
+import CategoriesRoutes from "./views/Categories/CategoriesRoutes";
+import roleRoutes from "./views/Role/RoleRoutes";
+import EmployeeRouters from "./views/Employee/EmployeeRouters";
+import ConstantList from "./appConfig";  
+const redirectRoute = [
+  {
+    path: ConstantList.ROOT_PATH,
+    exact: true,
+    component: () => <Redirect to={ConstantList.HOME_PAGE} />, //Luôn trỏ về HomePage được khai báo trong appConfig
+  },
+];
+
+const errorRoute = [
+  {
+    component: () => <Redirect to={ConstantList.ROOT_PATH + "session/404"} />,
+  },
+];
+
+const routes = [
+  ...homeRoutes,
+  ...sessionRoutes,
+  ...dashboardRoutes, 
+  ...datatablePageRootes,
+  ...RedirectToLandingPageRoutes, 
+  ...tablePageRoutes,  
+  ...materialRoutes, 
+  ...CategoriesRoutes,
+  ...utilitiesRoutes,    
+  ...ProductRoutes,
+  ...formsRoutes,   
+  ...scrumBoardRoutes, 
+  ...pageLayoutRoutes,
+  ...otherRoutes,
+  ...roleRoutes,
+  ...EmployeeRouters,
+  ...redirectRoute, 
+  ...errorRoute,
+
+];
+
+export default routes;
