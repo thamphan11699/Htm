@@ -26,6 +26,8 @@ import Draggable from 'react-draggable'
 import Paper from '@material-ui/core/Paper';
 import UploadImage from "./UploadImage";
 import DateFnsUtils from '@date-io/date-fns';
+import axios from "axios";
+import ConstantList from "../../appConfig";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -71,9 +73,12 @@ class EmployeeDialog extends Component {
     roles : [], 
     userId: "",
     imagePath: "",
+    imagePreviewUrl: "",
+    mainImageUrl: "",
     totalElements: 0,
     rowsPerPage: 25,
     page: 0,
+    confirmPassword: ''
   }
 
   handleChange = (event, source) => {
@@ -98,37 +103,72 @@ class EmployeeDialog extends Component {
     let { email, username, id, userId } = this.state;
     this.setState({disabled:true})
     // this.props.handleOKEditClose();
-    checkUsername({...this.state}).then((res) => {
-        if(res.data) {
+    checkUsername({...this.state}).then((username1) => {
+        if(username1.data) {
             toast.warn("Username đã được sử dụng");
             this.setState({disabled: false});
         } else {
-            checkEmail({...this.state}).then((resemail) => {
-                if(resemail.data) {
+            checkEmail({...this.state}).then((email1) => {
+                if(email1.data) {
                     toast.warn("Email đã được sử dụng");
                     this.setState({disabled: false});
                 } else {
                     if (!id) {
                         addNewData({
                             ...this.state
-                        }).then(() => {
-                            this.setState({loading:false})
-                            this.props.handleOKEditClose()
-                            var { t, i18n } = this.props;
-                            toast.success(t('general.success'));
-                        })
+                        }).then((res) => {
+                          if (this.state.file !== null) {
+                              console.log("WWWWWWWWWWWWWW)");
+                              const url = ConstantList.API_ENPOINT + "/api/upload/avatar";
+                              let formData = new FormData();
+                              formData.append('file', this.state.file);
+                              formData.append('employeeId', res.data.id);
+                              const config = {
+                                headers: {
+                                  'Content-Type': 'multipart/form-data'
+                                }
+                              }
+                               axios.post(url, formData, config).then(res1 => {
+                                 console.log("WWWWWWWWWWWWWW");
+                                 console.log(res1);
+                               })
+                            }
+                          
+                            
+                        }).then((data) => {
+                          var { t, i18n } = this.props;
+                          toast.success(t("general.success"));
+                          this.props.handleOKEditClose()
+                        });
                     } else {
                         updateData({
                             ...this.state
-                        }, id, userId).then(() => {
-                            this.setState({loading:false})
-                            this.props.handleOKEditClose()
-                            var { t, i18n } = this.props;
-                            toast.success(t('general.success'));
-                        })
-                        }
+                        }, id, userId).then((res) => {
+                          if (this.state.file !== null) {
+                            console.log("WWWWWWWWWWWWWW)");
+                            const url = ConstantList.API_ENPOINT + "/api/upload/avatar";
+                            let formData = new FormData();
+                            formData.append('file', this.state.file);
+                            formData.append('employeeId', res.data.id);
+                            const config = {
+                              headers: {
+                                'Content-Type': 'multipart/form-data'
+                              }
+                            }
+                             axios.post(url, formData, config).then(res1 => {
+                               console.log("WWWWWWWWWWWWWW");
+                               console.log(res1);
+                             })
+                          }
+                        
+                          
+                      }).then((data) => {
+                        var { t, i18n } = this.props;
+                        toast.success(t("general.success"));
+                        this.props.handleOKEditClose()
+                      });
+                    }
 
-                        this.props.handleClose();
                 }
             })
         }
@@ -140,20 +180,38 @@ class EmployeeDialog extends Component {
     this.setState({
       ...this.props.item,
     })
+    this.setState({
+      userId: this.props.userId,
+  })
+    ValidatorForm.removeValidationRule('isPasswordMatch');
     
   }
   componentDidMount() {
-      this.setState({
-          userId: this.props.userId,
-      })
+
+    ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+      if (value !== this.state.password) {
+        return false;
+      }
+      return true;
+    });
       getRole().then(role => {
           this.setState({roles: role.data.content});
       })
-      console.log(this.props.userId);
+      if (this.state.userId != null) {
+        this.setState({confirmPassword: this.state.password});
+      }
   }
   handleImageSelect = (file) => {
-    this.setState({ file: file })
+    let reader = new FileReader();
 
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result,
+      });
+    };
+
+    reader.readAsDataURL(file);
   };
   handleImageRemove = () => {
     this.setState({
@@ -164,10 +222,9 @@ class EmployeeDialog extends Component {
 
   render() {
     
-    let { username, password, fullName, email, phoneNumber, birthDay, gender, address, role, roles, imagePath, disabled, image } = this.state
+    let { username, password, fullName, email, phoneNumber, birthDay, gender, address, role, roles, disabled, imagePreviewUrl, mainImageUrl, confirmPassword } = this.state
     let { open, handleClose, handleOKEditClose, t, i18n } = this.props
     let genders = ["Nam", "Nữ", "Không rõ"];
-    console.log(username, password);
     return (
       <Dialog open={open} PaperComponent={PaperComponent} maxWidth="md">
         <ValidatorForm ref="form" onSubmit={this.handleFormSubmit}>
@@ -190,8 +247,8 @@ class EmployeeDialog extends Component {
                   className="w-30"
                   handleImageSelect={this.handleImageSelect}
                   handleImageRemove={this.handleImageRemove}
-                  mainImageUrl={imagePath}
-                  imagePreviewUrl={image}
+                  mainImageUrl={mainImageUrl}
+                  imagePreviewUrl={imagePreviewUrl}
                   t={t}
                 />
               </Grid>
@@ -221,6 +278,20 @@ class EmployeeDialog extends Component {
                   value={username}
                   validators={['required']}
                   errorMessages={['this field is required']}
+                />        
+              </Grid>
+              <Grid item  md={6} sm={6} xs={12}>
+                <TextValidator
+                  className="w-100"
+                  variant="outlined"
+                  size="small"
+                  label={t('employee.email')}
+                  onChange={this.handleChange}
+                  type="email"
+                  name="email"
+                  value={email}
+                  validators={['required', 'isEmail']}
+                  errorMessages={['this field is required', 'Email is not valid']}
                 />
               </Grid>
               <Grid item  md={6} sm={6} xs={12}>
@@ -237,20 +308,23 @@ class EmployeeDialog extends Component {
                   errorMessages={['this field is required']}
                 />
               </Grid>
-              <Grid item  md={6} sm={6} xs={12}>
+              <Grid item lg={6} md={6} sm={6} xs={12}>
                 <TextValidator
-                  className="w-100"
+                  className="mb-16 w-100"
+                  label={<span><span style={{color:"red"}}>*</span>{t('employee.confirmPassword')}</span>}
                   variant="outlined"
                   size="small"
-                  label={t('employee.email')}
                   onChange={this.handleChange}
-                  type="email"
-                  name="email"
-                  value={email}
-                  validators={['required']}
-                  errorMessages={['this field is required']}
-                />
-              </Grid>
+                  name="confirmPassword"
+                  type="password"
+                  value={confirmPassword}
+                  validators={['required', 'isPasswordMatch']}
+                  errorMessages={[
+                    'This field is required',
+                    'Password mismatch',
+                  ]}
+                  />
+               </Grid>
               <Grid item  md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100"
@@ -268,7 +342,7 @@ class EmployeeDialog extends Component {
               <Grid item  md={6} sm={6} xs={12}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
-                        style={{width: '100%', height: '100%', margin: 0}}
+                        style={{width: '100%', height: '100%', margin: 0,  padding: "0px !important"}}
                         disableToolbar
                         variant="outlined"
                         size="small"
@@ -324,21 +398,7 @@ class EmployeeDialog extends Component {
                   )}
                 />
               </Grid>
-              <Grid item  md={12} sm={12} xs={12}>
-                <TextValidator
-                  className="w-100"
-                  variant="outlined"
-                  size="small"
-                  label={t('employee.address')}
-                  onChange={this.handleChange}
-                  type="test"
-                  name="address"
-                  value={address}
-                  validators={['required']}
-                  errorMessages={['this field is required']}
-                />
-              </Grid>
-              <Grid item  md={12} sm={12} xs={12}>
+              <Grid item  md={6} sm={6} xs={12}>
                 <Autocomplete
                     disableClearable
                     options={roles}
@@ -365,6 +425,21 @@ class EmployeeDialog extends Component {
                     )}
                   />
               </Grid>
+              <Grid item  md={12} sm={12} xs={12}>
+                <TextValidator
+                  className="w-100"
+                  variant="outlined"
+                  size="small"
+                  label={t('employee.address')}
+                  onChange={this.handleChange}
+                  type="test"
+                  name="address"
+                  value={address}
+                  validators={['required']}
+                  errorMessages={['this field is required']}
+                />
+              </Grid>
+              
             </Grid>
           </DialogContent>
           <DialogActions>

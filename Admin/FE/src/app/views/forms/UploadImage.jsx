@@ -294,13 +294,13 @@ class UploadImage extends Component {
                 </div>
               </Fab>
             </label>
+            
             <input
               className="display-none"
               onChange={this.readURI}
               id="upload-multiple-file"
               type="file"
-              accept="image/*"
-              multiple
+              accept="image/*" 
             />
           </div>
           <span style={{ marginLeft: '20px' }}> 

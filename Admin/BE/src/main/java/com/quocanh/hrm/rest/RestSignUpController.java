@@ -26,25 +26,25 @@ public class RestSignUpController {
     UserService userService;
 
     @PostMapping(value = "/signin")
-    public ResponseEntity<UserDto> createUser(@RequestBody EmployeeDto dto) {
+    public ResponseEntity<EmployeeDto> createUser(@RequestBody EmployeeDto dto) {
         UserDto userDto = this.signUpService.createUser(dto);
         ResponseEntity<UserDto> resUser = new ResponseEntity<UserDto>(userDto,
                 (userDto != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
         EmployeeDto employeeDto = employeeService.saveOrUpdate(dto, null, resUser.getBody().getId());
         ResponseEntity<EmployeeDto> res = new ResponseEntity<EmployeeDto>(employeeDto,
                 (employeeDto != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
-        return resUser;
+        return res;
     }
 
     @PutMapping(value = "/signin/{employeeId}/{userId}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody EmployeeDto dto, @PathVariable("employeeId") Long employeeId, @PathVariable("userId") Long userId) {
+    public ResponseEntity<EmployeeDto> updateUser(@RequestBody EmployeeDto dto, @PathVariable("employeeId") Long employeeId, @PathVariable("userId") Long userId) {
         UserDto userDto = this.signUpService.updateUser(dto, userId);
         ResponseEntity<UserDto> resUser = new ResponseEntity<UserDto>(userDto,
                 (userDto != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
         EmployeeDto employeeDto = employeeService.saveOrUpdate(dto, employeeId, userId);
         ResponseEntity<EmployeeDto> res = new ResponseEntity<EmployeeDto>(employeeDto,
                 (employeeDto != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
-        return resUser;
+        return res;
     }
 
     @PostMapping(value = "/check-email")

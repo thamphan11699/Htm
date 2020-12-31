@@ -109,42 +109,31 @@ class UserProfile extends Component {
           {user.displayName}
         </div>
         <Grid className="mb-10" container spacing={3}>
-          <Grid item md={4} sm={12} xs={12}>
+          <Grid item md={6} sm={12} xs={12}>
             <FormControl fullWidth={true}>
-              <TextField id="standard-basic" label={t('user.firstName')} value={user.person != null ? user.person.firstName : ''} />
+              <TextField id="standard-basic" label={t('employee.displayName')} value={user.displayName != null ? user.displayName : ''} />
             </FormControl>
           </Grid>
-
-          <Grid item md={4} sm={12} xs={12}>
+          <Grid item md={6} sm={12} xs={12}>
             <FormControl fullWidth={true}>
-              <TextField id="standard-basic" label={t('user.lastName')} value={user.person != null ? user.person.lastName : ''} />
-            </FormControl>
-          </Grid>
-
-          <Grid item md={4} sm={12} xs={12}>
-            <FormControl fullWidth={true}>
-              <TextField id="standard-basic" label={t('user.displayName')} value={user.displayName != null ? user.displayName : ''} />
+              <TextField id="standard-basic" label={t('employee.email')} value={user.email != null ? user.email : ''} />
             </FormControl>
           </Grid>
         </Grid>
 
         <Grid className="mb-10" container spacing={3}>
-          <Grid item md={4} sm={12} xs={12}>
+          
+
+          <Grid item md={6} sm={12} xs={12}>
             <FormControl fullWidth={true}>
-              <TextField id="standard-basic" label={t('user.email')} value={user.email != null ? user.email : ''} />
+              <TextField id="standard-basic" label={t('employee.username')} value={user.username != null ? user.username : ''} />
             </FormControl>
           </Grid>
 
-          <Grid item md={4} sm={12} xs={12}>
-            <FormControl fullWidth={true}>
-              <TextField id="standard-basic" label={t('user.username')} value={user.username != null ? user.username : ''} />
-            </FormControl>
-          </Grid>
-
-          <Grid item md={4} sm={12} xs={12}>
+          <Grid item md={6} sm={12} xs={12}>
             <FormControl fullWidth={true}>
               <InputLabel htmlFor="gender-simple">
-                {t('user.gender')}
+                {t('employee.gender')}
               </InputLabel>
               <Select
                 value={user.person ? user.person.gender : ''}

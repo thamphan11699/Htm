@@ -144,7 +144,8 @@
     "filter": "Tìm kiếm theo mã và họ người dùng",
     "person_info": "Thông tin người dùng",
     "add": "Thêm người dùng mới",
-    "update": "Cập nhật thông tin người dùng"
+    "update": "Cập nhật thông tin người dùng",
+    "mainImageUrl": "Avatar"
   },
   "Statistic": {
     "campaign": "Chiến dịch",

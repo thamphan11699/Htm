@@ -279,7 +279,6 @@ class Employee extends Component {
       shouldOpenConfirmationDeleteAllDialog,
     } = this.state
     let TitlePage = t('employee.title')
-    console.log(itemList);
     let columns = [
       {
         title: t('employee.stt'),

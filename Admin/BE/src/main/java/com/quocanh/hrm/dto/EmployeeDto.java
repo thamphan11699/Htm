@@ -16,7 +16,7 @@ public class EmployeeDto extends BaseObjectDto{
     private String password;
     private UserDto user;
     private RoleDto role;
-    private String imagePath;
+    private String mainImageUrl;
 
     public String getFullName() {
         return fullName;
@@ -98,12 +98,12 @@ public class EmployeeDto extends BaseObjectDto{
         this.role = role;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getMainImageUrl() {
+        return mainImageUrl;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
     }
 
     public EmployeeDto() {}
@@ -122,6 +122,6 @@ public class EmployeeDto extends BaseObjectDto{
         this.role = new RoleDto(entity.getUser().getRole());
         this.username = entity.getUser().getUsername();
         this.password = entity.getUser().getPassword();
-        this.imagePath = entity.getImagePath();
+        this.mainImageUrl = entity.getImagePath();
     }
 }
