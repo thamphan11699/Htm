@@ -12,6 +12,9 @@ import java.util.Date;
 @Entity
 public class Employee extends BaseObject {
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "full_name")
     private String fullName;
 
@@ -37,6 +40,14 @@ public class Employee extends BaseObject {
 
     @Column(name="image_path")
     private String imagePath;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getFullName() {
         return fullName;

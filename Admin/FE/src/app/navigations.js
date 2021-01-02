@@ -9,11 +9,11 @@ export const navigations = [
     name: "Dashboard.title",
     icon: "web_asset",
     children: [
-      // {
-      //   name: "Product.title",
-      //   path: ConstantList.ROOT_PATH + "product",
-      //   icon: "redeem",
-      // },
+      {
+        name: "Quản lí tin tức",
+        path: ConstantList.ROOT_PATH + "news",
+        icon: "announcement",
+      },
       // {
       //   name: "Category.title",
       //   path: ConstantList.ROOT_PATH + "categories",

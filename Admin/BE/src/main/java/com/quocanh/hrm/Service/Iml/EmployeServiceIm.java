@@ -66,6 +66,7 @@ public class EmployeServiceIm implements EmployeeService {
                 entity.setCreateDate(new Date());
                 entity.setModifyDate(new Date());
             }
+            entity.setCode(dto.getCode());
             entity.setFullName(dto.getFullName());
             entity.setEmail(dto.getEmail());
             entity.setPhoneNumber(dto.getPhoneNumber());

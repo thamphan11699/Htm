@@ -303,7 +303,7 @@ class Employee extends Component {
             onSelect={(rowData, method) => {
               if (method === 0) {
                 getItemById(rowData.id).then(({ data }) => {
-                    console.log(data.user.id);
+                    // console.log(data.user.id);
                   this.setState({
                     item: data,
                     userId: data.user.id,

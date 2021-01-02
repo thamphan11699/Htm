@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class EmployeeDto extends BaseObjectDto{
 
+    private String code;
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -17,6 +18,14 @@ public class EmployeeDto extends BaseObjectDto{
     private UserDto user;
     private RoleDto role;
     private String mainImageUrl;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getFullName() {
         return fullName;
@@ -112,6 +121,7 @@ public class EmployeeDto extends BaseObjectDto{
         this.id = entity.getId();
         this.createDate = entity.getCreateDate();
         this.modifyDate = entity.getModifyDate();
+        this.code = entity.getCode();
         this.fullName= entity.getFullName();
         this.email = entity.getEmail();
         this.phoneNumber = entity.getPhoneNumber();

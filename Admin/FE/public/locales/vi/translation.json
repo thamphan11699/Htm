@@ -122,6 +122,7 @@
     "title": "Tài khoản",
     "fullName": "Họ và tên",
     "stt": "STT",
+    "code" : "Mã nhân viên",
     "userList": "Danh sách tài khoản người dùng",
     "displayName": "Họ và tên",
     "firstName": "Họ đệm",
