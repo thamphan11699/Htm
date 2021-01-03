@@ -2,6 +2,7 @@ package com.quocanh.hrm.rest;
 
 import com.quocanh.hrm.Service.PromotionService;
 import com.quocanh.hrm.dto.NewsDto;
+import com.quocanh.hrm.dto.PriceDto;
 import com.quocanh.hrm.dto.PromotionDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class RestPromotionController {
     }
 
     @PostMapping(value = "check-name")
-    public boolean checkNamewasUse(@RequestBody NewsDto dto) {
+    public boolean checkNamewasUse(@RequestBody PromotionDto dto) {
         boolean result = true;
         if (dto.getName() != null && StringUtils.hasText(dto.getName())) {
             result = promotionService.checkNameWasUsed(dto.getName(), dto.getId());

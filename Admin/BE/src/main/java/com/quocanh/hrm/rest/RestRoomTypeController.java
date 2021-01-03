@@ -48,7 +48,7 @@ public class RestRoomTypeController {
     }
 
     @PostMapping(value = "check-code")
-    public boolean checkCodewasUse(@RequestBody NewsDto dto) {
+    public boolean checkCodewasUse(@RequestBody RoomTypeDto dto) {
         boolean result = true;
         if (dto.getCode() != null && StringUtils.hasText(dto.getCode()) )
             result = roomTypeService.checkCodeWasUsed(dto.getCode(), dto.getId());
@@ -56,7 +56,7 @@ public class RestRoomTypeController {
     }
 
     @PostMapping(value = "check-name")
-    public boolean checkNamewasUse(@RequestBody NewsDto dto) {
+    public boolean checkNamewasUse(@RequestBody RoomTypeDto dto) {
         boolean result = true;
         if (dto.getName() != null && StringUtils.hasText(dto.getName())) {
             result = roomTypeService.checkNameWasUsed(dto.getName(), dto.getId());
