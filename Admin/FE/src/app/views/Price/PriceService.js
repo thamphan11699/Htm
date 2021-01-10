@@ -1,6 +1,6 @@
 import axios from "axios";
 import ConstantList from "../../appConfig";
-const API_PATH = ConstantList.API_ENPOINT + "/api/news";
+const API_PATH = ConstantList.API_ENPOINT + "/api/price";
 
 export const searchByPage = (searchObject) => {
   var url = API_PATH + "/searchByPage";

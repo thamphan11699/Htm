@@ -14,6 +14,11 @@ export const navigations = [
         path: ConstantList.ROOT_PATH + "news",
         icon: "announcement",
       },
+      {
+        name: "Quản lí giá",
+        path: ConstantList.ROOT_PATH + "price",
+        icon: "announcement",
+      },
       // {
       //   name: "Category.title",
       //   path: ConstantList.ROOT_PATH + "categories",

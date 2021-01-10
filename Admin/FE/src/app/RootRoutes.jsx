@@ -18,6 +18,7 @@ import CategoriesRoutes from "./views/Categories/CategoriesRoutes";
 import roleRoutes from "./views/Role/RoleRoutes";
 import EmployeeRouters from "./views/Employee/EmployeeRouters";
 import NewsRouters from "./views/News/NewsRouters";
+import PriceRouters from "./views/Price/PriceRouters";
 import ConstantList from "./appConfig";  
 const redirectRoute = [
   {
@@ -51,6 +52,7 @@ const routes = [
   ...roleRoutes,
   ...EmployeeRouters,
   ...NewsRouters,
+  ...PriceRouters,
   ...redirectRoute, 
   ...errorRoute,
 
