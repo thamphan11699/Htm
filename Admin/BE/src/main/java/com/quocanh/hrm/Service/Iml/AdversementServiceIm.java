@@ -107,7 +107,6 @@ public class AdversementServiceIm implements AdvertisementService {
             entity.setCode(dto.getCode());
             entity.setName(dto.getName());
             entity.setContent(dto.getContent());
-            entity.setMainImage(dto.getMainImage());
             entity = advertisementRepository.save(entity);
             if (entity != null) {
                 return new AdvertisementDto(entity);

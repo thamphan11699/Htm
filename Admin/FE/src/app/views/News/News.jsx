@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import {
   IconButton,
   Grid,
@@ -6,32 +6,27 @@ import {
   TablePagination,
   Button,
   TextField,
-  Tooltip
-} from '@material-ui/core'
+  Tooltip,
+} from "@material-ui/core";
 import MaterialTable, {
   MTableToolbar,
   Chip,
   MTableBody,
   MTableHeader,
-} from 'material-table'
-import {
-  deleteItem,
-  searchByPage,
-  getItemById,
-
-} from './NewsService'
-import NewsDialog from './NewsDialog'
-import { Breadcrumb, ConfirmationDialog } from 'egret'
-import { useTranslation, withTranslation, Trans } from 'react-i18next'
-import { saveAs } from 'file-saver'
-import { Helmet } from 'react-helmet'
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+} from "material-table";
+import { deleteItem, searchByPage, getItemById } from "./NewsService";
+import NewsDialog from "./NewsDialog";
+import { Breadcrumb, ConfirmationDialog } from "egret";
+import { useTranslation, withTranslation, Trans } from "react-i18next";
+import { saveAs } from "file-saver";
+import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 function MaterialButton(props) {
-  const { t, i18n } = useTranslation()
-  const item = props.item
+  const { t, i18n } = useTranslation();
+  const item = props.item;
 
   return (
     <div>
@@ -46,7 +41,7 @@ function MaterialButton(props) {
         </IconButton>
       </Tooltip>
     </div>
-  )
+  );
 }
 
 class News extends Component {
@@ -61,64 +56,64 @@ class News extends Component {
     selectedList: [],
     totalElements: 0,
     shouldOpenConfirmationDeleteAllDialog: false,
-    keyword: '',
-  }
-  numSelected = 0
-  rowCount = 0
+    keyword: "",
+  };
+  numSelected = 0;
+  rowCount = 0;
 
   setPage = (page) => {
     this.setState({ page }, function () {
-      this.updatePageData()
-    })
-  }
+      this.updatePageData();
+    });
+  };
 
   handleTextChange = (event) => {
-    this.setState({ keyword: event.target.value }, function () { })
-  }
+    this.setState({ keyword: event.target.value }, function () {});
+  };
 
   handleKeyDownEnterSearch = (e) => {
-    if (e.key === 'Enter') {
-      this.search()
+    if (e.key === "Enter") {
+      this.search();
     }
-  }
+  };
 
   setRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value, page: 0 }, function () {
-      this.updatePageData()
-    })
-  }
+      this.updatePageData();
+    });
+  };
 
   handleChangePage = (event, newPage) => {
-    this.setPage(newPage)
-  }
+    this.setPage(newPage);
+  };
 
   search() {
     this.setState({ page: 0 }, function () {
-      var searchObject = {}
-      searchObject.keyword = this.state.keyword
-      searchObject.pageIndex = this.state.page + 1
-      searchObject.pageSize = this.state.rowsPerPage
+      var searchObject = {};
+      searchObject.keyword = this.state.keyword;
+      searchObject.pageIndex = this.state.page + 1;
+      searchObject.pageSize = this.state.rowsPerPage;
       searchByPage(searchObject).then(({ data }) => {
         this.setState({
           itemList: [...data.content],
           totalElements: data.totalElements,
-        })
-      })
-    })
+        });
+      });
+    });
   }
 
   updatePageData = () => {
-    var searchObject = {}
-    searchObject.keyword = this.state.keyword
-    searchObject.pageIndex = this.state.page + 1
-    searchObject.pageSize = this.state.rowsPerPage
+    var searchObject = {};
+    searchObject.keyword = this.state.keyword;
+    searchObject.pageIndex = this.state.page + 1;
+    searchObject.pageSize = this.state.rowsPerPage;
     searchByPage(searchObject).then(({ data }) => {
       this.setState({
         itemList: [...data.content],
         totalElements: data.totalElements,
-      })
-    })
-  }
+      });
+    });
+  };
 
   // handleDownload = () => {
   //   var blob = new Blob(['Hello, world!'], { type: 'text/plain;charset=utf-8' })
@@ -129,145 +124,140 @@ class News extends Component {
       shouldOpenEditorDialog: false,
       shouldOpenConfirmationDialog: false,
       shouldOpenConfirmationDeleteAllDialog: false,
-    })
-  }
+    });
+  };
 
   handleOKEditClose = () => {
     this.setState({
       shouldOpenEditorDialog: false,
       shouldOpenConfirmationDialog: false,
-    })
-    this.updatePageData()
-  }
+    });
+    this.updatePageData();
+  };
 
   handleDeleteItem = (id) => {
     this.setState({
       id,
       shouldOpenConfirmationDialog: true,
-    })
-  }
+    });
+  };
 
   handleEditItem = (item) => {
     getItemById(item.id).then((result) => {
       this.setState({
         item: result.data,
         shouldOpenEditorDialog: true,
-      })
-    })
-  }
+      });
+    });
+  };
 
   handleConfirmationResponse = () => {
-    const { t, i18n } = this.props
+    const { t, i18n } = this.props;
     if (this.state.itemList.length === 1) {
-      let count = this.state.page - 1
+      let count = this.state.page - 1;
       this.setState({
         page: count,
-      })
+      });
     } else if (this.state.itemList.length === 1 && this.state.page === 1) {
       this.setState({
         page: 1,
-      })
+      });
     }
     deleteItem(this.state.id)
       .then((res) => {
-        this.handleDialogClose()
-        this.updatePageData()
+        this.handleDialogClose();
+        this.updatePageData();
       })
       .catch((err) => {
-        toast.warning(t('Category.checkduplicate'));
-        this.handleDialogClose()
-      })
-  }
+        toast.warning(t("Category.checkduplicate"));
+        this.handleDialogClose();
+      });
+  };
 
   componentDidMount() {
-    this.updatePageData()
+    this.updatePageData();
   }
 
   handleEditItem = (item) => {
     this.setState({
       item: item,
       shouldOpenEditorDialog: true,
-    })
-  }
+    });
+  };
 
   handleClick = (event, item) => {
-    let { itemList } = this.state
+    let { itemList } = this.state;
     if (item.checked == null) {
-      item.checked = true
+      item.checked = true;
     } else {
-      item.checked = !item.checked
+      item.checked = !item.checked;
     }
-    var selectAllItem = true
+    var selectAllItem = true;
     for (var i = 0; i < itemList.length; i++) {
       if (itemList[i].checked == null || itemList[i].checked == false) {
-        selectAllItem = false
+        selectAllItem = false;
       }
       if (itemList[i].id == item.id) {
-        itemList[i] = item
+        itemList[i] = item;
       }
     }
 
     this.setState({
       selectAllItem: selectAllItem,
       itemList: itemList,
-    })
-  }
+    });
+  };
   handleSelectAllClick = (event) => {
-    let { itemList } = this.state
+    let { itemList } = this.state;
     for (var i = 0; i < itemList.length; i++) {
-      itemList[i].checked = !this.state.selectAllItem
+      itemList[i].checked = !this.state.selectAllItem;
     }
     this.setState({
       selectAllItem: !this.state.selectAllItem,
       itemList: itemList,
-    })
-  }
+    });
+  };
 
   handleDelete = (id) => {
     this.setState({
       id,
       shouldOpenConfirmationDialog: true,
-    })
-  }
+    });
+  };
 
   async handleDeleteList(list) {
-    const { t, i18n } = this.props
+    const { t, i18n } = this.props;
     let listAlert = [];
     for (var i = 0; i < list.length; i++) {
-
       try {
         await deleteItem(list[i].id);
       } catch (error) {
         listAlert.push(list[i].name);
       }
     }
-    this.handleDialogClose()
+    this.handleDialogClose();
     if (listAlert.length === list.length) {
-      toast.warning(t('Category.checkduplicate'));
+      toast.warning(t("Category.checkduplicate"));
     } else if (listAlert.length > 0) {
-      toast.warning(t('Category.checkdelete'));
+      toast.warning(t("Category.checkdelete"));
     }
   }
-
-
-
 
   handleDeleteAll = (even) => {
-    const { t, i18n } = this.props
+    const { t, i18n } = this.props;
     if (this.data != null) {
       this.handleDeleteList(this.data).then(() => {
-        this.updatePageData()
-        this.handleDialogClose()
-      })
+        this.updatePageData();
+        this.handleDialogClose();
+      });
+    } else {
+      toast.warning(t("Category.checkdeletenull"));
+      this.handleDialogClose();
     }
-    else {
-      toast.warning(t('Category.checkdeletenull'));
-      this.handleDialogClose()
-    }
-  }
+  };
 
   render() {
-    const { t, i18n } = this.props
+    const { t, i18n } = this.props;
     let {
       keyword,
       rowsPerPage,
@@ -278,8 +268,8 @@ class News extends Component {
       shouldOpenConfirmationDialog,
       shouldOpenEditorDialog,
       shouldOpenConfirmationDeleteAllDialog,
-    } = this.state
-    let TitlePage = t('Category.title')
+    } = this.state;
+    let TitlePage = t("Category.title");
     let columns = [
       // {
       //   title: t('Category.stt'),
@@ -288,22 +278,31 @@ class News extends Component {
       //   align: 'center',
       //   render: (rowData) => page * rowsPerPage + (rowData.tableData.id + 1),
       // },
-      { title: t('Mã'), field: 'code', align: 'left', width: '150' },
-      { title: t('Tên'), field: 'name', align: 'left', width: '150' },
-      { title: t('Tiêu đề'), field: 'title', align: 'left', width: '150' },
-      { title: t('Nội dung'), field: 'content', align: 'left', width: '150',
-        render: (rowData) => (
-            <p style={{whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis"}} >
-                    {rowData.content}
-                </p>
-        )
-        },
+      { title: t("code"), field: "code", align: "left", width: "150" },
+      { title: t("name"), field: "name", align: "left", width: "150" },
+      { title: t("title"), field: "title", align: "left", width: "150" },
       {
-        title: t('general.action'),
-        field: 'custom',
-        align: 'center',
+        title: t("content"),
+        field: "content",
+        align: "left",
+        width: "150",
+        render: (rowData) => (
+          <p
+            style={{
+              whiteSpace: "nowrap",
+              width: "300px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {rowData.content}
+          </p>
+        ),
+      },
+      {
+        title: t("general.action"),
+        field: "custom",
+        align: "center",
         render: (rowData) => (
           <MaterialButton
             item={rowData}
@@ -313,18 +312,18 @@ class News extends Component {
                   this.setState({
                     item: data,
                     shouldOpenEditorDialog: true,
-                  })
-                })
+                  });
+                });
               } else if (method === 1) {
-                this.handleDelete(rowData.id)
+                this.handleDelete(rowData.id);
               } else {
-                alert('Call Selected Here:' + rowData.id)
+                alert("Call Selected Here:" + rowData.id);
               }
             }}
           />
         ),
       },
-    ]
+    ];
 
     return (
       <div className="m-sm-30">
@@ -332,7 +331,7 @@ class News extends Component {
           <title>Offer Pro | {TitlePage}</title>
         </Helmet>
         <div className="mb-sm-30">
-          <Breadcrumb routeSegments={[{ name: t('Category.title') }]} />
+          <Breadcrumb routeSegments={[{ name: t("News.title") }]} />
         </div>
 
         <Grid container spacing={3}>
@@ -345,10 +344,10 @@ class News extends Component {
                 this.handleEditItem({
                   startDate: new Date(),
                   endDate: new Date(),
-                })
+                });
               }}
             >
-              {t('general.add')}
+              {t("general.add")}
             </Button>
             <Button
               className="mb-16 mr-36 align-bottom"
@@ -358,7 +357,7 @@ class News extends Component {
                 this.setState({ shouldOpenConfirmationDeleteAllDialog: true })
               }
             >
-              {t('general.delete')}
+              {t("general.delete")}
             </Button>
 
             {shouldOpenConfirmationDeleteAllDialog && (
@@ -366,14 +365,14 @@ class News extends Component {
                 open={shouldOpenConfirmationDeleteAllDialog}
                 onConfirmDialogClose={this.handleDialogClose}
                 onYesClick={this.handleDeleteAll}
-                text={t('general.deleteAllConfirm')}
-                title={t('general.confirm')}
-                agree={t('general.agree')}
-                cancel={t('general.cancel')}
+                text={t("general.deleteAllConfirm")}
+                title={t("general.confirm")}
+                agree={t("general.agree")}
+                cancel={t("general.cancel")}
               />
             )}
             <TextField
-              label={t('Tìm kiếm')}
+              label={t("Tìm kiếm")}
               className="mb-16 mr-10"
               style={{ width: 350 }}
               type="text"
@@ -388,9 +387,7 @@ class News extends Component {
               color="primary"
               onClick={() => this.search(keyword)}
             >
-              <Icon fontSize="default" >
-                search
-                </Icon>
+              <Icon fontSize="default">search</Icon>
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -408,25 +405,27 @@ class News extends Component {
 
               {shouldOpenConfirmationDialog && (
                 <ConfirmationDialog
-                  title={t('general.confirm')}
+                  title={t("general.confirm")}
                   open={shouldOpenConfirmationDialog}
                   onConfirmDialogClose={this.handleDialogClose}
                   onYesClick={this.handleConfirmationResponse}
-                  text={t('general.deleteConfirm')}
-                  agree={t('general.agree')}
-                  cancel={t('general.cancel')}
+                  text={t("general.deleteConfirm")}
+                  agree={t("general.agree")}
+                  cancel={t("general.cancel")}
                 />
               )}
             </div>
             <MaterialTable
-              title={t('general.list')}
+              title={t("general.list")}
               localization={{
                 body: {
-                  emptyDataSourceMessage: `${t('general.emptyDataMessageTable')}`
+                  emptyDataSourceMessage: `${t(
+                    "general.emptyDataMessageTable"
+                  )}`,
                 },
                 toolbar: {
-                  nRowsSelected: `${t('general.select')}`
-                }
+                  nRowsSelected: `${t("general.select")}`,
+                },
               }}
               data={itemList}
               columns={columns}
@@ -434,16 +433,17 @@ class News extends Component {
                 rows.find((a) => a.id === row.parentId)
               }
               parentChildData={(row, rows) => {
-                var list = rows.find((a) => a.id === row.parentId)
-                return list
+                var list = rows.find((a) => a.id === row.parentId);
+                return list;
               }}
               options={{
                 headerStyle: {
                   color: "#ffffff",
-                  backgroundColor: "#7467ef"
+                  backgroundColor: "#7467ef",
                 },
-                rowStyle: rowData => ({
-                  backgroundColor: rowData.tableData.id % 2 === 0 ? "#ffffff" : "#eeeeee",
+                rowStyle: (rowData) => ({
+                  backgroundColor:
+                    rowData.tableData.id % 2 === 0 ? "#ffffff" : "#eeeeee",
                 }),
                 selection: true,
                 actionsColumnIndex: -1,
@@ -454,12 +454,12 @@ class News extends Component {
                 Toolbar: (props) => <MTableToolbar {...props} />,
               }}
               onSelectionChange={(rows) => {
-                this.data = rows
-                this.setState({ selectedItems: rows })
+                this.data = rows;
+                this.setState({ selectedItems: rows });
               }}
             />
             <TablePagination
-              labelRowsPerPage={t('general.rowperpage')}
+              labelRowsPerPage={t("general.rowperpage")}
               align="left"
               className="px-16"
               rowsPerPageOptions={[1, 2, 3, 5, 10, 25, 50, 100]}
@@ -468,10 +468,10 @@ class News extends Component {
               rowsPerPage={rowsPerPage}
               page={page}
               backIconButtonProps={{
-                'aria-label': 'Previous Page',
+                "aria-label": "Previous Page",
               }}
               nextIconButtonProps={{
-                'aria-label': 'Next Page',
+                "aria-label": "Next Page",
               }}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.setRowsPerPage}
@@ -479,8 +479,8 @@ class News extends Component {
           </Grid>
         </Grid>
       </div>
-    )
+    );
   }
 }
 
-export default News
+export default News;

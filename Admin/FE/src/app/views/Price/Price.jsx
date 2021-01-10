@@ -243,7 +243,7 @@ class Price extends Component {
     }
     this.handleDialogClose()
     if (listAlert.length === list.length) {
-      toast.warning(t('Category.checkduplicate'));
+      toast.warning(t('Validation.code'));
     } else if (listAlert.length > 0) {
       toast.warning(t('Category.checkdelete'));
     }
@@ -279,7 +279,7 @@ class Price extends Component {
       shouldOpenEditorDialog,
       shouldOpenConfirmationDeleteAllDialog,
     } = this.state
-    let TitlePage = t('Category.title')
+    let TitlePage = t('Price.title')
     let columns = [
       // {
       //   title: t('Category.stt'),
@@ -288,9 +288,9 @@ class Price extends Component {
       //   align: 'center',
       //   render: (rowData) => page * rowsPerPage + (rowData.tableData.id + 1),
       // },
-      { title: t('Mã'), field: 'code', align: 'left', width: '150' },
-      { title: t('Tên'), field: 'name', align: 'left', width: '150' },
-      { title: t('Gia tri'), field: 'value', align: 'left', width: '150' },
+      { title: t('code'), field: 'code', align: 'left', width: '150' },
+      { title: t('name'), field: 'name', align: 'left', width: '150' },
+      { title: t('value'), field: 'value', align: 'left', width: '150' },
       {
         title: t('general.action'),
         field: 'custom',
@@ -323,7 +323,7 @@ class Price extends Component {
           <title>Offer Pro | {TitlePage}</title>
         </Helmet>
         <div className="mb-sm-30">
-          <Breadcrumb routeSegments={[{ name: t('Category.title') }]} />
+          <Breadcrumb routeSegments={[{ name: t('Price.title') }]} />
         </div>
 
         <Grid container spacing={3}>
@@ -364,7 +364,7 @@ class Price extends Component {
               />
             )}
             <TextField
-              label={t('Tìm kiếm')}
+              label={t('search')}
               className="mb-16 mr-10"
               style={{ width: 350 }}
               type="text"

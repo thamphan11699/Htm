@@ -368,7 +368,7 @@ class Employee extends Component {
               />
             )}
             <TextField
-              label={t('general.SearchCategory')}
+              label={t('search')}
               className="mb-16 mr-10"
               style={{ width: 350 }}
               type="text"

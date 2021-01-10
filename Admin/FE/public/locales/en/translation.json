@@ -1,10 +1,27 @@
 {
+  "add": "Add",
+  "edit": "Edit",
+  "update": "Update",
+  "delete": "Delete",
+  "search": "Search",
+  "name": "Name",
+  "code": "Code",
+  "title": "Title",
+  "content": "Content",
+  "value": "Value",
+  "isChild": "Is children",
+  "desc": "Description",
+  "yes": "Yes",
+  "no": "No",
+  "startTime": "Start time",
+  "endTime": "End time",
+  "totalHours": "Total hours / shift",
   "Dashboard": {
     "dashboard": "Dashboard",
     "statistics": "Statistics",
     "analytics": "Analytics",
     "manage": "Manage",
-    "title": "Product Manager",
+    "title": "Manager",
     "campaign": "Campaign",
     "visits": "Visits",
     "unique_visits": "Unique Visits"
@@ -193,7 +210,8 @@
     "invalid_date": "* Invalid date",
     "invalid_date_start_end": "* Apply date must be less than end date",
     "number_cannot_be_characters": "* This field must be a number and be greater than 0",
-    "invalid_pattern_password": "* Use 8 to 20 or more characters with a mix of letters, numbers & symbols"
+    "invalid_pattern_password": "* Use 8 to 20 or more characters with a mix of letters, numbers & symbols",
+    "code": "Code has been used"
   },
   "FileUpload": {
     "drop_file_here": "Drop your file here",
@@ -218,5 +236,23 @@
     "roi": "ROI",
     "profit": "Profit",
     "ar": "AR"
+  },
+  "News": {
+    "title": "News management"
+  },
+  "Price": {
+    "title":"Price management"
+  },
+  "Type" : {
+    "title":"Type management"
+  },
+  "Promotion" : {
+    "title":"Promotion management"
+  },
+  "Advertisement" : {
+    "title": "Advertisement management"
+  },
+  "Shift" : {
+    "title": "Shift management"
   }
 }

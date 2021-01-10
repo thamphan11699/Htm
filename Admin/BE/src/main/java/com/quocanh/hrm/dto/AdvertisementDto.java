@@ -6,7 +6,6 @@ public class AdvertisementDto extends BaseObjectDto{
     private String name;
     private String code;
     private String content;
-    private String mainImage;
 
     public String getName() {
         return name;
@@ -32,13 +31,6 @@ public class AdvertisementDto extends BaseObjectDto{
         this.content = content;
     }
 
-    public String getMainImage() {
-        return mainImage;
-    }
-
-    public void setMainImage(String mainImage) {
-        this.mainImage = mainImage;
-    }
     public AdvertisementDto() {}
 
     public AdvertisementDto(Advertisement entity) {
@@ -48,6 +40,5 @@ public class AdvertisementDto extends BaseObjectDto{
         this.code = entity.getCode();
         this.name = entity.getName();
         this.content = entity.getContent();
-        this.mainImage = entity.getMainImage();
     }
 }

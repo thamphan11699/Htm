@@ -14,6 +14,7 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import EditorForm from "./EditorForm";
 import {
   addNewData,
   updateData,
@@ -85,7 +86,7 @@ class NewsDialog extends Component {
     this.setState({ disabled: true });
     checkCode({ ...this.state }).then(({ data }) => {
       if (data) {
-        toast.warn("Mã đã được sử dụng");
+        toast.warn(t("Validation.code"));
         this.setState({ disabled: false });
       } else {
         if (!id) {
@@ -112,6 +113,9 @@ class NewsDialog extends Component {
       ...this.props.item,
     });
   }
+  handleChangeContent = (content) => {
+    this.setState({ content: content})
+  }
 
   render() {
     let { id } = this.state;
@@ -134,11 +138,11 @@ class NewsDialog extends Component {
             </IconButton>
           </div>
           <DialogContent>
-            <Grid className="mb-10" container spacing={3}>
+            <Grid className="mb-10 mt-10" container spacing={3}>
               <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
-                  className="w-100 mb-10"
-                  label={t("Mã")}
+                  className="w-100"
+                  label={t("code")}
                   onChange={this.handleChange}
                   size="small"
                   variant="outlined"
@@ -152,7 +156,7 @@ class NewsDialog extends Component {
               <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100"
-                  label={t("Tên tin tức")}
+                  label={t("name")}
                   onChange={this.handleChange}
                   type="text"
                   size="small"
@@ -166,7 +170,7 @@ class NewsDialog extends Component {
               <Grid item md={12} sm={12} xs={12}>
                 <TextValidator
                   className="w-100"
-                  label={t("Tiêu đề")}
+                  label={t("title")}
                   onChange={this.handleChange}
                   type="text"
                   size="small"
@@ -178,17 +182,10 @@ class NewsDialog extends Component {
                 />
               </Grid>
               <Grid item md={12} sm={12} xs={12}>
-                <TextareaAutosize
-                  rowsMin={3}
-                  className="w-100"
-                  label={t("Nội dung")}
-                  onChange={this.handleChange}
-                  type="text"
-                  size="small"
-                  variant="outlined"
-                  name="content"
-                  value={content}
-                />
+                 <EditorForm
+                    content={this.state.content}
+                    handleChangeContent={this.handleChangeContent}
+                 />
               </Grid>
             </Grid>
           </DialogContent>

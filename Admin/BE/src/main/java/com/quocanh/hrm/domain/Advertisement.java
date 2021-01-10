@@ -19,8 +19,6 @@ public class Advertisement extends BaseObject{
     @Column(name = "content")
     private String content;
 
-    @Column(name = "main_image")
-    private String mainImage;
 
     public String getName() {
         return name;
@@ -44,13 +42,5 @@ public class Advertisement extends BaseObject{
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getMainImage() {
-        return mainImage;
-    }
-
-    public void setMainImage(String mainImage) {
-        this.mainImage = mainImage;
     }
 }

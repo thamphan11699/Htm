@@ -314,10 +314,11 @@ class EmployeeDialog extends Component {
                   label={t("employee.username")}
                   variant="outlined"
                   size="small"
+                  disabled={true}
                   onChange={this.handleChange}
                   type="text"
                   name="username"
-                  value={username}
+                  value={code ? code : ""}
                   validators={["required"]}
                   errorMessages={["this field is required"]}
                 />
@@ -439,6 +440,7 @@ class EmployeeDialog extends Component {
                 <Autocomplete
                   options={genders}
                   defaultValue={gender}
+                  disableClearable
                   size="small"
                   style={{ width: "100%" }}
                   onChange={(event, value) => {

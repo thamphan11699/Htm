@@ -1,10 +1,27 @@
 ﻿{
+  "add": "Thêm",
+  "edit": "Sửa",
+  "update": "Cập nhật",
+  "delete": "Xóa",
+  "search": "Tìm kiếm",
+  "name": "Tên",
+  "code": "Mã",
+  "title": "Tiêu đề",
+  "content": "Nội dung",
+  "value": "Giá trị",
+  "isChild": "Có trẻ em",
+  "desc": "Mô tả",
+  "yes": "Có",
+  "no": "Không",
+  "startTime": "Thời gian bắt đầu",
+  "endTime": "Thời gian kết thúc",
+  "totalHours": "Tổng số giờ / ca",
   "Dashboard": {
     "dashboard": "Trang chủ",
     "analytics": "Phân tích số liệu",
     "statistics": "Số liệu thống kê",
-    "manage": "Quản lý",
-    "title": "Quản lý sản phẩm",
+    "manage": "Quản lý người dùng",
+    "title": "Quản lý danh mục",
     "offerpro": {
       "publisher_network": "Publisher/Network",
       "public_offer": "Offers",
@@ -229,12 +246,31 @@
     "invalid_passwork": "* Mật khẩu không trùng khớp",
     "invalid_date": "* Ngày không hợp lệ",
     "number_cannot_be_characters": "* Trường này bắt buộc là số và lớn hơn 0",
-    "invalid_pattern_password": "* Sử dụng 8 tới 20 ký tự trở lên và kết hợp chữ cái, chữ số và biểu tượng"
+    "invalid_pattern_password": "* Sử dụng 8 tới 20 ký tự trở lên và kết hợp chữ cái, chữ số và biểu tượng",
+    "code": "Mã đã được sử dụng"
   },
   "FileUpload": {
     "drop_file_here": "Thả file của bạn vào đây",
     "selected": "đã chọn",
     "upload": "Tải lên",
     "no_file_selected": "Chưa chọn file nào"
+  },
+  "News": {
+    "title": "Quản lí tin tức"
+  },
+  "Price": {
+    "title":"Quản lí giá"
+  },
+  "Type" : {
+    "title":"Quản lí loại phòng"
+  },
+  "Promotion" : {
+    "title":"Quản lí khuyến mãi"
+  },
+  "Advertisement" : {
+    "title": "Quản lí quảng cáo"
+  },
+  "Shift" : {
+    "title": "Quản lí ca làm việc"
   }
 }

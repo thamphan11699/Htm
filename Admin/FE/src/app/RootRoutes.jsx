@@ -19,6 +19,10 @@ import roleRoutes from "./views/Role/RoleRoutes";
 import EmployeeRouters from "./views/Employee/EmployeeRouters";
 import NewsRouters from "./views/News/NewsRouters";
 import PriceRouters from "./views/Price/PriceRouters";
+import TypeRouters from "./views/Type/TypeRouters";
+import PromotionRouters from "./views/Promotion/PromotionRouters";
+import AdvertisementRouters from "./views/Advertisement/AdvertisementRouters";
+import ShiftRouters from "./views/Shift/ShiftRouters";
 import ConstantList from "./appConfig";  
 const redirectRoute = [
   {
@@ -53,6 +57,10 @@ const routes = [
   ...EmployeeRouters,
   ...NewsRouters,
   ...PriceRouters,
+  ...TypeRouters,
+  ...PromotionRouters,
+  ...AdvertisementRouters,
+  ...ShiftRouters,
   ...redirectRoute, 
   ...errorRoute,
 

@@ -38,7 +38,7 @@ public class RestPromotionController {
         return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(value = "/{id")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<PromotionDto> getOne(@PathVariable("id") Long id) {
         PromotionDto result = promotionService.getOne(id);
         return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);

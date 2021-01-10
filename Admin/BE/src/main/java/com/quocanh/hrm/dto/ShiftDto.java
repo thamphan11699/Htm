@@ -2,6 +2,7 @@ package com.quocanh.hrm.dto;
 
 import com.quocanh.hrm.domain.Shift;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ShiftDto extends BaseObjectDto{
@@ -54,6 +55,7 @@ public class ShiftDto extends BaseObjectDto{
     public ShiftDto() {}
 
     public ShiftDto(Shift entity) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         this.id = entity.getId();
         this.createDate = entity.getCreateDate();
         this.modifyDate = entity.getModifyDate();
