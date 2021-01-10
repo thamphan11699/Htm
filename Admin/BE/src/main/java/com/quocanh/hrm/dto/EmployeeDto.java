@@ -1,8 +1,11 @@
 package com.quocanh.hrm.dto;
 
 import com.quocanh.hrm.domain.Employee;
+import com.quocanh.hrm.domain.EmployeeShift;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EmployeeDto extends BaseObjectDto{
 
@@ -18,6 +21,7 @@ public class EmployeeDto extends BaseObjectDto{
     private UserDto user;
     private RoleDto role;
     private String mainImageUrl;
+    private Set<ShiftDto> shifts;
 
     public String getCode() {
         return code;
@@ -115,9 +119,41 @@ public class EmployeeDto extends BaseObjectDto{
         this.mainImageUrl = mainImageUrl;
     }
 
+    public Set<ShiftDto> getShifts() {
+        return shifts;
+    }
+
+    public void setShifts(Set<ShiftDto> shifts) {
+        this.shifts = shifts;
+    }
+
     public EmployeeDto() {}
 
     public EmployeeDto(Employee entity) {
+        this.id = entity.getId();
+        this.createDate = entity.getCreateDate();
+        this.modifyDate = entity.getModifyDate();
+        this.code = entity.getCode();
+        this.fullName= entity.getFullName();
+        this.email = entity.getEmail();
+        this.phoneNumber = entity.getPhoneNumber();
+        this.birthDay = entity.getBirthDay();
+        this.gender = entity.getGender();
+        this.address = entity.getAddress();
+        this.user = new UserDto(entity.getUser());
+        this.role = new RoleDto(entity.getUser().getRole());
+        this.username = entity.getUser().getUsername();
+        this.password = entity.getUser().getPassword();
+        this.mainImageUrl = entity.getImagePath();
+        if (entity.getEmployeeShifts() != null && entity.getEmployeeShifts().size() > 0) {
+            this.shifts = new HashSet<ShiftDto>();
+            for (EmployeeShift employeeShift : entity.getEmployeeShifts()) {
+                ShiftDto dto = new ShiftDto(employeeShift.getShift());
+                this.shifts.add(dto);
+            }
+        }
+    }
+    public EmployeeDto(Employee entity, boolean simple) {
         this.id = entity.getId();
         this.createDate = entity.getCreateDate();
         this.modifyDate = entity.getModifyDate();

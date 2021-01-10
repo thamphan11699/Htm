@@ -6,6 +6,7 @@ import org.hibernate.annotations.NotFoundAction;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.Set;
 
 @XmlRootElement
 @Table(name = "tbl_employee")
@@ -40,6 +41,9 @@ public class Employee extends BaseObject {
 
     @Column(name="image_path")
     private String imagePath;
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<EmployeeShift> employeeShifts;
 
     public String getCode() {
         return code;
@@ -111,5 +115,13 @@ public class Employee extends BaseObject {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public Set<EmployeeShift> getEmployeeShifts() {
+        return employeeShifts;
+    }
+
+    public void setEmployeeShifts(Set<EmployeeShift> employeeShifts) {
+        this.employeeShifts = employeeShifts;
     }
 }

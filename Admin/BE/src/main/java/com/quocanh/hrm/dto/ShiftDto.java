@@ -1,9 +1,12 @@
 package com.quocanh.hrm.dto;
 
+import com.quocanh.hrm.domain.EmployeeShift;
 import com.quocanh.hrm.domain.Shift;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ShiftDto extends BaseObjectDto{
     private String name;
@@ -11,6 +14,7 @@ public class ShiftDto extends BaseObjectDto{
     private Date startTime;
     private Date endTime;
     private double totalHours;
+    private Set<EmployeeDto> employees;
 
     public String getName() {
         return name;
@@ -52,10 +56,34 @@ public class ShiftDto extends BaseObjectDto{
         this.totalHours = totalHours;
     }
 
+    public Set<EmployeeDto> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<EmployeeDto> employees) {
+        this.employees = employees;
+    }
+
     public ShiftDto() {}
 
     public ShiftDto(Shift entity) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        this.id = entity.getId();
+        this.createDate = entity.getCreateDate();
+        this.modifyDate = entity.getModifyDate();
+        this.name = entity.getName();
+        this.code = entity.getCode();
+        this.startTime = entity.getStartTime();
+        this.endTime = entity.getEndTime();
+        this.totalHours = entity.getTotalHours();
+//        if (entity.getEmployeeShifts() != null && entity.getEmployeeShifts().size() > 0) {
+//            this.employees = new HashSet<EmployeeDto>();
+//            for (EmployeeShift employeeShift : entity.getEmployeeShifts()) {
+//                EmployeeDto dto = new EmployeeDto(employeeShift.getEmployee());
+//                this.employees.add(dto);
+//            }
+//        }
+    }
+    public ShiftDto(Shift entity, boolean simple) {
         this.id = entity.getId();
         this.createDate = entity.getCreateDate();
         this.modifyDate = entity.getModifyDate();

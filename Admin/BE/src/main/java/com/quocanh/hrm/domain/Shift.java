@@ -1,10 +1,9 @@
 package com.quocanh.hrm.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.Set;
 
 @XmlRootElement
 @Table(name = "tbl_shift")
@@ -24,6 +23,9 @@ public class Shift extends BaseObject{
 
     @Column(name = "total_hours" ,nullable = true)
     private Double totalHours;
+
+    @OneToMany(mappedBy = "shift", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<EmployeeShift> employeeShifts;
 
     public String getName() {
         return name;
@@ -63,5 +65,13 @@ public class Shift extends BaseObject{
 
     public void setTotalHours(Double totalHours) {
         this.totalHours = totalHours;
+    }
+
+    public Set<EmployeeShift> getEmployeeShifts() {
+        return employeeShifts;
+    }
+
+    public void setEmployeeShifts(Set<EmployeeShift> employeeShifts) {
+        this.employeeShifts = employeeShifts;
     }
 }

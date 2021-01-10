@@ -2,11 +2,15 @@ package com.quocanh.hrm.Service.Iml;
 
 import com.quocanh.hrm.Service.EmployeeService;
 import com.quocanh.hrm.domain.Employee;
+import com.quocanh.hrm.domain.EmployeeShift;
+import com.quocanh.hrm.domain.Shift;
 import com.quocanh.hrm.domain.User;
 import com.quocanh.hrm.dto.EmployeeDto;
 import com.quocanh.hrm.dto.UserDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import com.quocanh.hrm.repository.EmployeeRepository;
+import com.quocanh.hrm.repository.EmployeeShiftRepository;
+import com.quocanh.hrm.repository.ShiftRepository;
 import com.quocanh.hrm.repository.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,8 +24,8 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeServiceIm implements EmployeeService {
@@ -39,6 +43,12 @@ public class EmployeServiceIm implements EmployeeService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    EmployeeShiftRepository employeeShiftRepository;
+
+    @Autowired
+    ShiftRepository shiftRepository;
 
     @Override
     public void delete(Long id) {
@@ -76,8 +86,43 @@ public class EmployeServiceIm implements EmployeeService {
             if (UserId != null) {
                 entity.setUser(userRepository.getOne(UserId));
             }
+            Set<EmployeeShift> employeeShifts = new HashSet<>();
+            Set<Long> newShiftId = new HashSet<>();
+            if (dto.getShifts() != null && dto.getId() != null && !dto.getShifts().isEmpty()) {
+                List<Long> shiftIds = dto.getShifts().stream().map(shiftDto -> shiftDto.getId()).collect(Collectors.toList());
+                List<Long> currentEmployeeShiftIds = new ArrayList<>();
+                for (Long shiftId : shiftIds) {
+                    EmployeeShift employeeShift = employeeShiftRepository.getEmployeeShiftFromShiftIdAndEmployeeId(shiftId, dto.getId());
+                    if (employeeShift != null) {
+                        currentEmployeeShiftIds.add(employeeShift.getId());
+                        employeeShifts.add(employeeShift);
+                    } else {
+                        newShiftId.add(shiftId);
+                    }
+                }
+                List<Long> oldEmployeeShiftIds = employeeShiftRepository.getEmployeeShiftFromEmployeeId(dto.getId());
+                List<Long> deletedIds = oldEmployeeShiftIds.stream().filter(oldId -> !oldEmployeeShiftIds.contains(oldId)).collect(Collectors.toList());
+                for (Long deleteId : deletedIds) {
+                    employeeShiftRepository.deleteById(deleteId);
+                }
+            } else if (dto.getShifts() != null && !dto.getShifts().isEmpty()) {
+                newShiftId = dto.getShifts().stream().map(shiftDto -> shiftDto.getId()).collect(Collectors.toSet());
+            }
+            entity.setEmployeeShifts(employeeShifts);
             entity = employeeRepository.save(entity);
+
             if (entity != null) {
+                if (!newShiftId.isEmpty()) {
+                    for (Long newId : newShiftId) {
+                        EmployeeShift employeeShift = new EmployeeShift();
+                        Shift shift = shiftRepository.getOne(newId);
+                        employeeShift.setEmployee(entity);
+                        employeeShift.setShift(shift);
+                        employeeShift.setCreateDate(new Date());
+                        employeeShift.setModifyDate(new Date());
+                        employeeShiftRepository.save(employeeShift);
+                    }
+                }
                 return new EmployeeDto(entity);
             }
         }
