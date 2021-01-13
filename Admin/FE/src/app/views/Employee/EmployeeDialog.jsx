@@ -11,6 +11,8 @@ import {
 } from "@material-ui/core";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
   addNewData,
@@ -29,6 +31,7 @@ import UploadImage from "./UploadImage";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import ConstantList from "../../appConfig";
+import { searchByPage as getAllShift } from "../Shift/ShiftService";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -77,6 +80,8 @@ class EmployeeDialog extends Component {
     imagePath: "",
     imagePreviewUrl: "",
     mainImageUrl: "",
+    listShift: [],
+    shifts: [],
     totalElements: 0,
     rowsPerPage: 25,
     page: 0,
@@ -105,7 +110,8 @@ class EmployeeDialog extends Component {
   };
 
   handleFormSubmit = () => {
-    let { email, username, id, userId } = this.state;
+    let { email, id, userId } = this.state;
+    this.setState({ username: this.state.code });
     this.setState({ disabled: true });
     // this.props.handleOKEditClose();
     checkUsername({ ...this.state }).then((username1) => {
@@ -210,6 +216,11 @@ class EmployeeDialog extends Component {
     if (this.state.userId != null) {
       this.setState({ confirmPassword: this.state.password });
     }
+    getAllShift({ pageSize: 999999, pageIndex: 0 }).then(({ data }) => {
+      this.setState({
+        listShift: [...data.content],
+      });
+    });
   }
   handleImageSelect = (file) => {
     let reader = new FileReader();
@@ -227,6 +238,11 @@ class EmployeeDialog extends Component {
     this.setState({
       file: null,
       imagePreviewUrl: "",
+    });
+  };
+  selectShift = (shiftSelected) => {
+    this.setState({ shifts: shiftSelected }, () => {
+      console.log(this.state.shifts);
     });
   };
 
@@ -249,8 +265,12 @@ class EmployeeDialog extends Component {
       mainImageUrl,
       confirmPassword,
       editPassword,
+      shifts,
+      listShift,
     } = this.state;
     let { open, handleClose, handleOKEditClose, t, i18n } = this.props;
+    const checkedIcon = <CheckBoxIcon fontSize="small" />;
+    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     let genders = ["Nam", "Nữ", "Không rõ"];
     // console.log(editPassword);
     return (
@@ -283,7 +303,12 @@ class EmployeeDialog extends Component {
               <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100 mb-10"
-                  label={t("employee.fullName")}
+                  label={
+                    <span>
+                      <span style={{ color: "red" }}>*</span>
+                      {t("employee.fullName")}
+                    </span>
+                  }
                   variant="outlined"
                   size="small"
                   onChange={this.handleChange}
@@ -297,7 +322,12 @@ class EmployeeDialog extends Component {
               <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100 mb-10"
-                  label={t("employee.code")}
+                  label={
+                    <span>
+                      <span style={{ color: "red" }}>*</span>
+                      {t("employee.code")}
+                    </span>
+                  }
                   variant="outlined"
                   size="small"
                   onChange={this.handleChange}
@@ -328,7 +358,12 @@ class EmployeeDialog extends Component {
                   className="w-100"
                   variant="outlined"
                   size="small"
-                  label={t("employee.email")}
+                  label={
+                    <span>
+                      <span style={{ color: "red" }}>*</span>
+                      {t("employee.email")}
+                    </span>
+                  }
                   onChange={this.handleChange}
                   type="email"
                   name="email"
@@ -363,7 +398,12 @@ class EmployeeDialog extends Component {
                     className="w-100"
                     variant="outlined"
                     size="small"
-                    label={t("employee.password")}
+                    label={
+                      <span>
+                        <span style={{ color: "red" }}>*</span>
+                        {t("employee.password")}
+                      </span>
+                    }
                     onChange={this.handleChange}
                     type="password"
                     name="password"
@@ -397,19 +437,92 @@ class EmployeeDialog extends Component {
                   />
                 </Grid>
               )}
-
               <Grid item md={6} sm={6} xs={12}>
-                <TextValidator
-                  className="w-100"
+                {listShift && (
+                  <Autocomplete
+                    multiple
+                    variant="outlined"
+                    options={listShift ? listShift : []}
+                    defaultValue={shifts ? shifts : []}
+                    disableClearable
+                    // disableCloseOnSelect
+                    getOptionSelected={(option, value) =>
+                      option.id === value.id
+                    }
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, value) => {
+                      this.selectShift(value);
+                    }}
+                    renderOption={(option, { selected }) => (
+                      <React.Fragment>
+                        <Checkbox
+                          icon={icon}
+                          checkedIcon={checkedIcon}
+                          style={{ marginRight: 8 }}
+                          checked={selected}
+                        />
+                        {option.name}
+                      </React.Fragment>
+                    )}
+                    style={{ width: "100%" }}
+                    renderInput={(params) => (
+                      <TextValidator
+                        {...params}
+                        value={listShift}
+                        label={
+                          <span>
+                            <span style={{ color: "red" }}>*</span>
+                            {t("Ca làm việc")}
+                          </span>
+                        }
+                        fullWidth
+                        validators={["required"]}
+                        errorMessages={[t("Validation.this_field_is_required")]}
+                      />
+                    )}
+                  />
+                )}
+              </Grid>
+              <Grid item md={6} sm={6} xs={12}>
+                <Autocomplete
+                  disableClearable
+                  options={roles}
                   variant="outlined"
                   size="small"
-                  label={t("employee.phone")}
-                  onChange={this.handleChange}
-                  type="number"
-                  name="phoneNumber"
-                  value={phoneNumber}
-                  validators={["required"]}
-                  errorMessages={["this field is required"]}
+                  defaultValue={role}
+                  // disableCloseOnSelect
+                  getOptionSelected={(option, value) => option.id === value.id}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event, value) => {
+                    this.selectRole(value);
+                  }}
+                  renderOption={(option, { selected }) => (
+                    <React.Fragment>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      {option.name}
+                    </React.Fragment>
+                  )}
+                  style={{ width: "100%", marginTop: "12px" }}
+                  renderInput={(params) => (
+                    <TextValidator
+                      {...params}
+                      value={role}
+                      label={
+                        <span>
+                          <span style={{ color: "red" }}>*</span>
+                          {t("employee.role")}
+                        </span>
+                      }
+                      fullWidth
+                      validators={["required"]}
+                      errorMessages={[t("Validation.this_field_is_required")]}
+                    />
+                  )}
                 />
               </Grid>
               <Grid item md={6} sm={6} xs={12}>
@@ -427,7 +540,12 @@ class EmployeeDialog extends Component {
                     format="dd/MM/yyyy"
                     margin="normal"
                     id="date-picker-inline"
-                    label={t("employee.birthDay")}
+                    label={
+                      <span>
+                        <span style={{ color: "red" }}>*</span>
+                        {t("employee.birthDay")}
+                      </span>
+                    }
                     value={birthDay}
                     onChange={this.handleDateChange}
                     KeyboardButtonProps={{
@@ -439,6 +557,7 @@ class EmployeeDialog extends Component {
               <Grid item md={6} sm={6} xs={12}>
                 <Autocomplete
                   options={genders}
+                  variant="outlined"
                   defaultValue={gender}
                   disableClearable
                   size="small"
@@ -469,40 +588,35 @@ class EmployeeDialog extends Component {
                     <TextValidator
                       {...params}
                       value={gender}
-                      label={t("employee.gender")}
+                      label={
+                        <span>
+                          <span style={{ color: "red" }}>*</span>
+                          {t("employee.gender")}
+                        </span>
+                      }
                       fullWidth
                       validators={["required"]}
                       errorMessages={[t("Validation.this_field_is_required")]}
                     />
                   )}
+                />
+              </Grid>
+
+              <Grid item md={6} sm={6} xs={12}>
+                <TextValidator
+                  className="w-100"
+                  variant="outlined"
+                  size="small"
+                  label={t("employee.phone")}
+                  onChange={this.handleChange}
+                  type="number"
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  validators={["required"]}
+                  errorMessages={["this field is required"]}
                 />
               </Grid>
               <Grid item md={6} sm={6} xs={12}>
-                <Autocomplete
-                  disableClearable
-                  options={roles}
-                  size="small"
-                  defaultValue={role}
-                  disableCloseOnSelect
-                  getOptionSelected={(option, value) => option.id === value.id}
-                  getOptionLabel={(option) => option.name}
-                  onChange={(event, value) => {
-                    this.selectRole(value);
-                  }}
-                  style={{ width: "100%" }}
-                  renderInput={(params) => (
-                    <TextValidator
-                      {...params}
-                      value={role}
-                      label={t("employee.role")}
-                      fullWidth
-                      validators={["required"]}
-                      errorMessages={[t("Validation.this_field_is_required")]}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item md={12} sm={12} xs={12}>
                 <TextValidator
                   className="w-100"
                   variant="outlined"
