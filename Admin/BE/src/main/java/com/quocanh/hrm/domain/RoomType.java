@@ -1,8 +1,6 @@
 package com.quocanh.hrm.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -10,47 +8,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 public class RoomType extends BaseObject{
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Type type;
 
-    @Column(name = "code")
-    private String code;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
-    @Column(name = "children")
-    private Boolean children;
-
-    @Column(name = "description")
-    private String description;
-
-    public String getName() {
-        return name;
+    public Type getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(Type type) {
+        this.type = type;
     }
 
-    public String getCode() {
-        return code;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Boolean getChildren() {
-        return children;
-    }
-
-    public void setChildren(Boolean children) {
-        this.children = children;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

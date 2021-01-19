@@ -1,9 +1,7 @@
 package com.quocanh.hrm.Service.Iml;
 
 import com.quocanh.hrm.Service.TypeService;
-import com.quocanh.hrm.domain.RoomType;
 import com.quocanh.hrm.domain.Type;
-import com.quocanh.hrm.dto.RoomTypeDto;
 import com.quocanh.hrm.dto.TypeDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import com.quocanh.hrm.repository.TypeRepository;

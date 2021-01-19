@@ -1,9 +1,8 @@
 package com.quocanh.hrm.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Set;
 
 @XmlRootElement
 @Table(name = "tbl_price")
@@ -18,6 +17,9 @@ public class Price extends BaseObject{
 
     @Column(name = "value")
     private String value;
+
+    @OneToMany(mappedBy = "price", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<RoomPrice> roomPrices;
 
     public String getName() {
         return name;
@@ -41,5 +43,13 @@ public class Price extends BaseObject{
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Set<RoomPrice> getRoomPrices() {
+        return roomPrices;
+    }
+
+    public void setRoomPrices(Set<RoomPrice> roomPrices) {
+        this.roomPrices = roomPrices;
     }
 }

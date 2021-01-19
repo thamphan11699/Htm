@@ -1,9 +1,8 @@
 package com.quocanh.hrm.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Set;
 
 @XmlRootElement
 @Table(name = "tbl_promotion")
@@ -21,6 +20,9 @@ public class Promotion extends BaseObject{
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "promotion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<RoomPromotion> roomPromotions;
 
     public String getName() {
         return name;
@@ -52,5 +54,13 @@ public class Promotion extends BaseObject{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<RoomPromotion> getRoomPromotions() {
+        return roomPromotions;
+    }
+
+    public void setRoomPromotions(Set<RoomPromotion> roomPromotions) {
+        this.roomPromotions = roomPromotions;
     }
 }

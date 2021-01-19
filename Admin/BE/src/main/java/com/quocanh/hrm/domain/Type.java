@@ -1,9 +1,11 @@
 package com.quocanh.hrm.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.hibernate.annotations.NotFound;
+
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.ws.Action;
+import java.util.Set;
 
 @XmlRootElement
 @Table(name = "tbl_type")
@@ -20,6 +22,9 @@ public class Type extends BaseObject{
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<RoomType> roomTypes;
 
     public String getName() {
         return name;

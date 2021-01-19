@@ -1,8 +1,6 @@
 package com.quocanh.hrm.rest;
 
 import com.quocanh.hrm.Service.TypeService;
-import com.quocanh.hrm.dto.NewsDto;
-import com.quocanh.hrm.dto.RoomTypeDto;
 import com.quocanh.hrm.dto.TypeDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.quocanh.hrm.Service;
 
-import com.quocanh.hrm.dto.RoomTypeDto;
 import com.quocanh.hrm.dto.TypeDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import org.springframework.data.domain.Page;

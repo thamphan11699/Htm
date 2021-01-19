@@ -52,4 +52,13 @@ public class TypeDto extends BaseObjectDto{
         this.children = entity.getChildren();
         this.description = entity.getDescription();
     }
+    public TypeDto(Type entity, boolean sample) {
+        this.id = entity.getId();
+        this.createDate = entity.getCreateDate();
+        this.modifyDate = entity.getModifyDate();
+        this.name = entity.getName();
+        this.code = entity.getCode();
+        this.children = entity.getChildren();
+        this.description = entity.getDescription();
+    }
 }
