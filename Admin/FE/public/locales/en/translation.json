@@ -1,4 +1,13 @@
 {
+  "identityCard": "Identity card",
+  "promotionCode": "Promotion code",
+  "adults": "Adults",
+  "checkOutDate": "Check out date",
+  "checkInDate": "Check in date",
+  "phone":"Phone number",
+  "email": "Email",
+  "children": "Children",
+  "Customer": "Customer",
   "add": "Add",
   "edit": "Edit",
   "update": "Update",
@@ -254,5 +263,21 @@
   },
   "Shift" : {
     "title": "Shift management"
+  },
+  "UserBook" : {
+    "title": "Customer request management",
+    "wait": "Customer wait check in"
+  },
+  "ExistingCustomers" : {
+    "title": "Khách hàng hiện tại"
+  },
+  "CustomerReject" : {
+    "title": "Customer reject"
+  },
+  "CheckOut" : {
+    "title": "Check out"
+  },
+  "CheckIn" : {
+    "title": "Check in"
   }
 }

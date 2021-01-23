@@ -23,6 +23,15 @@ import TypeRouters from "./views/Type/TypeRouters";
 import PromotionRouters from "./views/Promotion/PromotionRouters";
 import AdvertisementRouters from "./views/Advertisement/AdvertisementRouters";
 import ShiftRouters from "./views/Shift/ShiftRouters";
+import RoomRouters from "./views/Room/RoomRouters";
+import UserBookRouters from "./views/UserBook/UserBookRouters";
+import WaitCheckInRouters from "./views/WaitCheckIn/WaitCheckInRouters";
+import ExistingCustomersRouters from "./views/ExistingCustomers/ExistingCustomersRouters";
+import CustomerRejectRouters from "./views/CustomerReject/CustomerRejectRouters";
+import CheckOutRouters from "./views/CheckOut/CheckOutRouters";
+import CheckInRouters from "./views/CheckIn/CheckInRouters";
+import ListCustomerRouters from "./views/ListCustomer/ListCustomerRouters";
+import CustomerUsedRouters from "./views/CustomerUsed/CustomerUsedRouters";
 import ConstantList from "./appConfig";  
 const redirectRoute = [
   {
@@ -61,6 +70,15 @@ const routes = [
   ...PromotionRouters,
   ...AdvertisementRouters,
   ...ShiftRouters,
+  ...RoomRouters,
+  ...UserBookRouters,
+  ...WaitCheckInRouters,
+  ...ExistingCustomersRouters,
+  ...CustomerRejectRouters,
+  ...CheckOutRouters,
+  ...CheckInRouters,
+  ...ListCustomerRouters,
+  ...CustomerUsedRouters,
   ...redirectRoute, 
   ...errorRoute,
 

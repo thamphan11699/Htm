@@ -1,4 +1,13 @@
 ﻿{
+  "identityCard": "Chứng minh nhân dân",
+  "promotionCode": "Mã khuyến mãi",
+  "adults": "Số người lớn",
+  "Customer": "Khách hàng",
+  "checkOutDate": "Ngày check out",
+  "checkInDate": "Ngày check in",
+  "phone":"Số điện thoại",
+  "email": "Email",
+  "children": "Số trẻ em",
   "add": "Thêm",
   "edit": "Sửa",
   "update": "Cập nhật",
@@ -6,6 +15,7 @@
   "search": "Tìm kiếm",
   "name": "Tên",
   "code": "Mã",
+  "status": "Trạng thái",
   "title": "Tiêu đề",
   "content": "Nội dung",
   "value": "Giá trị",
@@ -272,5 +282,30 @@
   },
   "Shift" : {
     "title": "Quản lí ca làm việc"
+  },
+  "Room" : {
+    "title" : "Quản lí phòng"
+  },
+  "UserBook" : {
+    "title": "Yêu cầu đặt phòng",
+    "wait": "Khách hàng chờ check in"
+  },
+  "ExistingCustomers" : {
+    "title": "Khách hàng hiện tại"
+  },
+  "CustomerReject" : {
+    "title": "Khách hàng bị từ chối"
+  },
+  "CheckOut" : {
+    "title": "Check out"
+  },
+  "CheckIn" : {
+    "title": "Check in"
+  },
+  "ListCustomer" : {
+    "title": "Danh sách khách hàng"
+  },
+  "CustomerUsed" : {
+    "title": "Khách hàng đã check out"
   }
 }

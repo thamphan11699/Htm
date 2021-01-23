@@ -3,6 +3,7 @@ package com.quocanh.hrm.rest;
 import com.quocanh.hrm.Service.RoomService;
 import com.quocanh.hrm.dto.NewsDto;
 import com.quocanh.hrm.dto.RoomDto;
+import com.quocanh.hrm.dto.serachdto.RoomSearchDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ public class RestRoomController {
     RoomService roomService;
 
     @PostMapping(value = "/searchByPage")
-    public ResponseEntity<Page<RoomDto>> searchBypage(@RequestBody SearchDto dto) {
+    public ResponseEntity<Page<RoomDto>> searchBypage(@RequestBody RoomSearchDto dto) {
         Page<RoomDto> result = roomService.searchByPage(dto);
         return  new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }

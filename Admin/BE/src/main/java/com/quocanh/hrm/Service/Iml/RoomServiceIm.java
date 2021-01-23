@@ -6,6 +6,7 @@ import com.quocanh.hrm.dto.NewsDto;
 import com.quocanh.hrm.dto.RoomDto;
 import com.quocanh.hrm.dto.RoomTypeDto;
 import com.quocanh.hrm.dto.TypeDto;
+import com.quocanh.hrm.dto.serachdto.RoomSearchDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import com.quocanh.hrm.repository.*;
 import org.hibernate.Session;
@@ -55,7 +56,7 @@ public class RoomServiceIm implements RoomService {
     RoomPromotionRepository roomPromotionRepository;
 
     @Override
-    public Page<RoomDto> searchByPage(SearchDto dto) {
+    public Page<RoomDto> searchByPage(RoomSearchDto dto) {
         if (dto == null) {
             return null;
         }
@@ -76,23 +77,32 @@ public class RoomServiceIm implements RoomService {
             orderBy = " ORDER BY entity."+dto.getOrderBy()+" ASC";
         }
 
-        String sqlCount = "select count(entity.id) from Room as entity where (1=1)";
-        String sql = "select new com.quocanh.hrm.dto.RoomDto(entity) from Room as entity where (1=1)";
+        String sqlOrder = "SELECT new com.quocanh.hrm.dto.RoomDto(entity) FROM Room entity WHERE entity.id in ( ";
+        String sqlCount = "select count(DISTINCT entity.id) from Room as entity" +
+                " JOIN RoomType as RT ON entity.id = RT.room.id JOIN Type as T ON RT.type.id = T.id  where (1=1)";
+        String sql = "select DISTINCT entity.id  from Room as entity" +
+                " JOIN RoomType as RT ON entity.id = RT.room.id JOIN Type as T ON RT.type.id = T.id  where (1=1)";
 
         if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
-            whereClause += " AND ( UPPER(entity.name) LIKE UPPER(:text) OR UPPER(entity.code) LIKE UPPER(:text) " +
-                    "OR UPPER(entity.title) LIKE UPPER(:text) )";
+            whereClause += " AND ( UPPER(entity.name) LIKE UPPER(:text) OR UPPER(entity.code) LIKE UPPER(:text) )";
+        }
+        if (dto.getType() != null && StringUtils.hasText(dto.getType())) {
+            whereClause += " AND ( UPPER(T.name) LIKE UPPER(:type) ) AND entity.status is false ";
         }
 
-        sql += whereClause + orderBy;
+        sql +=  whereClause + orderBy;
         sqlCount += whereClause;
-
+        sql = sqlOrder + sql + " ) " + orderBy;
         Query q = manager.createQuery(sql, RoomDto.class);
         Query qCount = manager.createQuery(sqlCount);
 
         if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
             q.setParameter("text", '%' + dto.getKeyword() + '%');
             qCount.setParameter("text", '%' + dto.getKeyword() + '%');
+        }
+        if (dto.getType() != null && StringUtils.hasText(dto.getType())) {
+            q.setParameter("type", '%' + dto.getType() + '%');
+            qCount.setParameter("type", '%' + dto.getType() + '%');
         }
 
         int startPosition = pageIndex * pageSize;
