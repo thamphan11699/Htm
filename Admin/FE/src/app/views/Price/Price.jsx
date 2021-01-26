@@ -320,7 +320,7 @@ class Price extends Component {
     return (
       <div className="m-sm-30">
         <Helmet>
-          <title>Offer Pro | {TitlePage}</title>
+          <title>HTM | {TitlePage}</title>
         </Helmet>
         <div className="mb-sm-30">
           <Breadcrumb routeSegments={[{ name: t('Price.title') }]} />

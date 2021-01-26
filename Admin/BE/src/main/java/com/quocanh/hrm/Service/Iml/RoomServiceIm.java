@@ -152,7 +152,7 @@ public class RoomServiceIm implements RoomService {
                 List<Long> oldRoomTypeIds = roomTypeRepository.getRoomTypeFromRoomId(dto.getId());
                 List<Long> deletedIds = oldRoomTypeIds.stream().filter(oldId -> !oldRoomTypeIds.contains(oldId)).collect(Collectors.toList());
                 for (Long deletedId : deletedIds) {
-                    roomTypeRepository.deleteById(deletedId);
+                        roomTypeRepository.deleteById(deletedId);
                 }
             } else if (dto.getTypes() != null && !dto.getTypes().isEmpty()) {
                 newTypeIds = dto.getTypes().stream().map(typeDto -> typeDto.getId()).collect(Collectors.toSet());
