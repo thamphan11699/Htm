@@ -1,0 +1,6 @@
+.dialog-title {
+    display: flex;
+    background-color: #3f50b5;
+    justify-content: space-between;
+    padding: 0 26px;
+}
