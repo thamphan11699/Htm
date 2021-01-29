@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Icon,
   Badge,
@@ -7,17 +7,20 @@ import {
   Button,
   IconButton,
   Drawer,
-  Fab
+  Fab,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/styles";
 import { getTimeDifference } from "utils.js";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
+import MessageIcon from "@material-ui/icons/Message";
+import axios from "axios";
+import moment from "moment";
 import {
   getNotification,
   deleteAllNotification,
-  deleteNotification
+  deleteNotification,
 } from "../../redux/actions/NotificationActions";
 
 function NotificationBar(props) {
@@ -25,11 +28,22 @@ function NotificationBar(props) {
     container,
     theme,
     settings,
-    notification: notifcationList = [],
     getNotification,
     deleteAllNotification,
-    deleteNotification
+    deleteNotification,
   } = props;
+
+  const [notifcationList, setNotificationsList] = useState([]);
+  useEffect(() => {
+    axios
+      .post("http://localhost:9999/htm/api/customer/searchByPage", {
+        pageIndex: 0,
+        pageSize: 100,
+      })
+      .then(({ data }) => {
+        setNotificationsList([...data.content]);
+      });
+  }, []);
 
   const [panelOpen, setPanelOpen] = React.useState(false);
 
@@ -44,21 +58,21 @@ function NotificationBar(props) {
 
   return (
     <MuiThemeProvider theme={settings.themes[settings.activeTheme]}>
-      {/* <IconButton
+      <IconButton
         onClick={handleDrawerToggle}
         style={{
           color:
             parentThemePalette.type === "light"
               ? parentThemePalette.text.secondary
-              : parentThemePalette.text.primary
+              : parentThemePalette.text.primary,
         }}
       >
-        <Badge color="secondary" badgeContent={5}>
+        <Badge color="secondary" badgeContent={notifcationList.length}>
           <Icon>notifications</Icon>
         </Badge>
-      </IconButton> */}
+      </IconButton>
 
-      {/* <Drawer
+      <Drawer
         width={"100px"}
         container={container}
         variant="temporary"
@@ -66,7 +80,7 @@ function NotificationBar(props) {
         open={panelOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true
+          keepMounted: true,
         }}
       >
         <div className="notification">
@@ -75,7 +89,7 @@ function NotificationBar(props) {
             <h5 className="ml-8 my-0 font-weight-500">Notifications</h5>
           </div>
 
-          {notifcationList.map(notification => (
+          {notifcationList.map((notification) => (
             <div
               key={notification.id}
               className="notification__card position-relative"
@@ -89,32 +103,28 @@ function NotificationBar(props) {
                   clear
                 </Icon>
               </IconButton>
-              <Link to={`/${notification.path}`} onClick={handleDrawerToggle}>
+              <Link to="/user-booking" onClick={handleDrawerToggle}>
                 <Card className="mx-16 mb-24" elevation={3}>
                   <div className="card__topbar flex flex-middle flex-space-between p-8 bg-light-gray">
                     <div className="flex">
                       <div className="card__topbar__button">
-                        <Icon
+                        <MessageIcon
                           className="card__topbar__icon"
                           fontSize="small"
-                          color={notification.icon.color}
-                        >
-                          {notification.icon.name}
-                        </Icon>
+                          color="primary"
+                        />
                       </div>
                       <span className="ml-4 font-weight-500 text-muted">
-                        {notification.heading}
+                        Yêu cầu đặt phòng mới
                       </span>
                     </div>
                     <small className="card__topbar__time text-muted">
-                      {getTimeDifference(new Date(notification.timestamp))} ago
+                      {moment(notification.createDate).format("DD-MM")}
                     </small>
                   </div>
                   <div className="px-16 pt-8 pb-16">
-                    <p className="m-0">{notification.title}</p>
-                    <small className="text-muted">
-                      {notification.subtitle}
-                    </small>
+                    <p className="m-0">{notification.name}</p>
+                    <small className="text-muted">{notification.phone}</small>
                   </div>
                 </Card>
               </Link>
@@ -125,27 +135,31 @@ function NotificationBar(props) {
             <Button onClick={deleteAllNotification}>Clear Notifications</Button>
           </div>
         </div>
-      </Drawer> */}
+      </Drawer>
     </MuiThemeProvider>
   );
 }
 
 NotificationBar.propTypes = {
   settings: PropTypes.object.isRequired,
-  notification: PropTypes.array.isRequired
+  notification: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   getNotification: PropTypes.func.isRequired,
   deleteNotification: PropTypes.func.isRequired,
   deleteAllNotification: PropTypes.func.isRequired,
   notification: state.notification,
-  settings: state.layout.settings
+  settings: state.layout.settings,
 });
 
-export default withStyles({}, { withTheme: true })(
-  connect(
-    mapStateToProps,
-    { getNotification, deleteNotification, deleteAllNotification }
-  )(NotificationBar)
+export default withStyles(
+  {},
+  { withTheme: true }
+)(
+  connect(mapStateToProps, {
+    getNotification,
+    deleteNotification,
+    deleteAllNotification,
+  })(NotificationBar)
 );

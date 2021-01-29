@@ -467,7 +467,7 @@ class UserBook extends Component {
                   backgroundColor:
                     rowData.tableData.id % 2 === 0 ? "#ffffff" : "#eeeeee",
                 }),
-                selection: true,
+                // selection: true,
                 actionsColumnIndex: -1,
                 paging: false,
                 search: false,

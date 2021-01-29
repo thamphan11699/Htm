@@ -7,7 +7,7 @@ import {
   Badge,
   MenuItem,
   withStyles,
-  MuiThemeProvider
+  MuiThemeProvider,
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { setLayoutSettings } from "app/redux/actions/LayoutActions";
@@ -18,20 +18,20 @@ import { isMdScreen } from "utils";
 import NotificationBar from "../SharedCompoents/NotificationBar";
 import { Link } from "react-router-dom";
 import ShoppingCart from "../SharedCompoents/ShoppingCart";
-import { useTranslation, withTranslation, Trans } from 'react-i18next';
-import Select from '@material-ui/core/Select';
-import LanguageSelect from '../SharedCompoents/LanguageSelect';
-const styles = theme => ({
+import { useTranslation, withTranslation, Trans } from "react-i18next";
+import Select from "@material-ui/core/Select";
+import LanguageSelect from "../SharedCompoents/LanguageSelect";
+const styles = (theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.main
-  }
+    backgroundColor: theme.palette.primary.main,
+  },
 });
 const ViewLanguageSelect = withTranslation()(LanguageSelect);
 
 class Layout1Topbar extends Component {
   state = {};
 
-  updateSidebarMode = sidebarSettings => {
+  updateSidebarMode = (sidebarSettings) => {
     let { settings, setLayoutSettings } = this.props;
 
     setLayoutSettings({
@@ -40,9 +40,9 @@ class Layout1Topbar extends Component {
         ...settings.layout1Settings,
         leftSidebar: {
           ...settings.layout1Settings.leftSidebar,
-          ...sidebarSettings
-        }
-      }
+          ...sidebarSettings,
+        },
+      },
     });
   };
 
@@ -66,14 +66,13 @@ class Layout1Topbar extends Component {
   render() {
     const { t, i18n } = this.props;
     let { theme, settings } = this.props;
-    let language= 'en';
-    const changeLanguage = lng => {
+    let language = "en";
+    const changeLanguage = (lng) => {
       alert(lng);
       i18n.changeLanguage(lng);
       //alert('here');
-    };    
+    };
 
-  
     const topbarTheme =
       settings.themes[settings.layout1Settings.topbar.theme] || theme;
     return (
@@ -105,21 +104,22 @@ class Layout1Topbar extends Component {
               </div>
               <div className="flex flex-middle">
                 <EgretSearchBox />
-                <ViewLanguageSelect/>
                 <NotificationBar />
-                <ShoppingCart></ShoppingCart>
+                <ViewLanguageSelect />
+
+                {/* <ShoppingCart></ShoppingCart> */}
                 {/* <select class="form-control language-selector"  onClick={() => changeLanguage('en')}>
                     <option value="de">Deutsch</option>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
                     <option value="it">Italiano</option>
                 </select> */}
-                
+
                 <EgretMenu
                   menuButton={
                     <img
                       className="mx-8 text-middle circular-image-small cursor-pointer"
-                      src={ConstantList.ROOT_PATH+"assets/images/face-7.jpg"}
+                      src={ConstantList.ROOT_PATH + "assets/images/face-7.jpg"}
                       alt="user"
                     />
                   }
@@ -167,20 +167,17 @@ class Layout1Topbar extends Component {
 Layout1Topbar.propTypes = {
   setLayoutSettings: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
-  settings: PropTypes.object.isRequired
+  settings: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   setLayoutSettings: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
-  settings: state.layout.settings
+  settings: state.layout.settings,
 });
 
 export default withStyles(styles, { withTheme: true })(
   withRouter(
-    connect(
-      mapStateToProps,
-      { setLayoutSettings, logoutUser }
-    )(Layout1Topbar)
+    connect(mapStateToProps, { setLayoutSettings, logoutUser })(Layout1Topbar)
   )
 );
