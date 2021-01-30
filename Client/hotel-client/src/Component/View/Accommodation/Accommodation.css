@@ -1,0 +1,25 @@
+.info {
+    background-color: #ccc;
+    width: 100%;
+    height: 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.info-content {
+    width: 940px;
+    height: 550px;
+    background-color: #fff;
+}
+
+.list-amenities {
+    list-style: none;
+    margin-top: 60px;
+}
+.amenities-item {
+    text-align: left;
+    margin-left: 120px;
+    font-size: 16px;
+    margin-top: 12px;
+
+}
