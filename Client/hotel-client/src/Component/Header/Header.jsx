@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
 import "./Header.css";
 import BookingDialog from "../Booking/BookingDialog";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
+import { getType } from "./HeaderService";
 
 class Header extends Component {
   state = {
@@ -11,10 +12,18 @@ class Header extends Component {
     shouldOpenDialog: false,
   };
 
+  componentWillMount() {
+    getType({ pageIndex: 0, pageSize: 10 }).then(({ data }) => {
+      this.setState({
+        listType: [...data.content],
+      });
+    });
+  }
+
   componentDidMount() {
     window.addEventListener("scroll", () => {
       let scrolled = window.scrollY;
-      if (scrolled > 200) {
+      if (scrolled > 60) {
         this.setState({
           closeLogo: true,
           background: "#f8f8f8",
@@ -44,13 +53,15 @@ class Header extends Component {
   };
 
   render() {
+    let { listType } = this.state;
     return (
       <header className="header">
         {this.state.closeLogo === false && (
           <Grid container className="header-top" justify="center">
             <img
               className="img-logo"
-              src="https://hanoihotel.com.vn/wp-content/uploads/sites/97/2020/09/Logo-Hanoihotel.png" alt="log"
+              src="https://hanoihotel.com.vn/wp-content/uploads/sites/97/2020/09/Logo-Hanoihotel.png"
+              alt="log"
             />
           </Grid>
         )}
@@ -66,39 +77,60 @@ class Header extends Component {
                   Trang chủ
                 </Link>
               </li>
-              <a className="nav-item">
-                <Link to="/accommodation/2" className="nav-link">
+              <li className="nav-item">
+                <Link to="#" className="nav-link">
                   Chỗ ở
                 </Link>
-              </a>
+                <ul className="list-type">
+                  {listType != null && listType.length > 0 && listType.map((type, index) => {
+                    return (
+                      <li key={type.id} className="list-type-item">
+                        <a href={"/accommodation/" + type.id} className="list-type-link">
+                          {type.name}
+                        </a>
+                      </li>
+                    );
+                  })}
+                  {/* <li className="list-type-item">
+                      <Link to="/accommodation/3" className="list-type-link">
+                        Phòng Deluxe
+                      </Link>
+                    </li>
+                    <li className="list-type-item">
+                      <Link to="/accommodation/3" className="list-type-link">
+                        Bộ Deluxe
+                      </Link>
+                    </li> */}
+                </ul>
+              </li>
               <li className="nav-item">
-                <Link href="/" className="nav-link">
+                <Link to="/" className="nav-link">
                   Dịch vụ ăn uống
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href="/" className="nav-link">
+                <Link to="/" className="nav-link">
                   Ưu đãi
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href="/" className="nav-link">
+                <Link to="/" className="nav-link">
                   Họp và sự kiện
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href="/" className="nav-link">
+                <Link to="/" className="nav-link">
                   Liên hệ với chúng tôi
                 </Link>
               </li>
               <li className="nav-item">
-                <a
-                  // href="#"
+                <p
+                  // to="#"
                   className="nav-link"
                   onClick={this.openBookingDialog}
                 >
                   Đăt phòng
-                </a>
+                </p>
               </li>
             </ul>
           </Grid>

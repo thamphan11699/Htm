@@ -279,5 +279,11 @@
   },
   "CheckIn" : {
     "title": "Check in"
+  },
+  "Ameniti": {
+    "title" : "Amenities management"
+  },
+  "WaitCheckIn": {
+    "title" : "Wait check in"
   }
 }

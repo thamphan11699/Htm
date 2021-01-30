@@ -20,6 +20,7 @@ export const role = {
     "CheckIn.title",
     "ListCustomer.title",
     "CustomerUsed.title",
+    "Ameniti.title",
     "Customer",
   ],
   MANAGER: ["Dashboard.dashboard", "Dashboard.title"],

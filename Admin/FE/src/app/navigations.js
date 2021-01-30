@@ -71,6 +71,11 @@ export const navigations = [
         icon: "category",
       },
       {
+        name: "Ameniti.title",
+        path: ConstantList.ROOT_PATH + "ameniti",
+        icon: "category",
+      },
+      {
         name: "Room.title",
         path: ConstantList.ROOT_PATH + "room",
         icon: "category",

@@ -307,5 +307,11 @@
   },
   "CustomerUsed" : {
     "title": "Khách hàng đã check out"
+  },
+  "Ameniti": {
+    "title" : "Quản lí tiện ích"
+  },
+  "WaitCheckIn": {
+    "title" : "Khách hàng chờ check in"
   }
 }

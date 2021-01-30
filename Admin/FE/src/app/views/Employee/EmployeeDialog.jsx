@@ -242,7 +242,7 @@ class EmployeeDialog extends Component {
   };
   selectShift = (shiftSelected) => {
     this.setState({ shifts: shiftSelected }, () => {
-      console.log(this.state.shifts);
+      // console.log(this.state.shifts);
     });
   };
 
@@ -438,10 +438,10 @@ class EmployeeDialog extends Component {
                 </Grid>
               )}
               <Grid item md={6} sm={6} xs={12}>
-                {listShift && (
+              {listShift && (
                   <Autocomplete
                     multiple
-                    variant="outlined"
+                    size="small"
                     options={listShift ? listShift : []}
                     defaultValue={shifts ? shifts : []}
                     disableClearable
@@ -468,7 +468,8 @@ class EmployeeDialog extends Component {
                     renderInput={(params) => (
                       <TextValidator
                         {...params}
-                        value={listShift}
+                        value={shifts}
+                        variant="outlined"
                         label={
                           <span>
                             <span style={{ color: "red" }}>*</span>
@@ -487,7 +488,6 @@ class EmployeeDialog extends Component {
                 <Autocomplete
                   disableClearable
                   options={roles}
-                  variant="outlined"
                   size="small"
                   defaultValue={role}
                   // disableCloseOnSelect
@@ -507,11 +507,13 @@ class EmployeeDialog extends Component {
                       {option.name}
                     </React.Fragment>
                   )}
-                  style={{ width: "100%", marginTop: "12px" }}
+                  style={{ width: "100%", }}
                   renderInput={(params) => (
                     <TextValidator
                       {...params}
                       value={role}
+                      variant="outlined"
+                      size="small"
                       label={
                         <span>
                           <span style={{ color: "red" }}>*</span>
@@ -535,7 +537,7 @@ class EmployeeDialog extends Component {
                       padding: "0px !important",
                     }}
                     disableToolbar
-                    variant="outlined"
+                    inputVariant="outlined"
                     size="small"
                     format="dd/MM/yyyy"
                     margin="normal"
@@ -588,6 +590,7 @@ class EmployeeDialog extends Component {
                     <TextValidator
                       {...params}
                       value={gender}
+                      variant="outlined"
                       label={
                         <span>
                           <span style={{ color: "red" }}>*</span>

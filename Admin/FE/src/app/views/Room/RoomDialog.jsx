@@ -197,7 +197,7 @@ class RoomDialog extends Component {
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     // console.log(editPassword);
     return (
-      <Dialog open={open} PaperComponent={PaperComponent} maxWidth="lg">
+      <Dialog open={open} PaperComponent={PaperComponent} maxWidth="md">
         <ValidatorForm ref="form" onSubmit={this.handleFormSubmit}>
           <div
             style={{ cursor: "move" }}
@@ -250,11 +250,11 @@ class RoomDialog extends Component {
                 {listType && (
                   <Autocomplete
                     multiple
-                    variant="outlined"
                     options={listType ? listType : []}
                     defaultValue={types ? types : []}
                     disableClearable
                     inputVariant="outlined"
+                    size="small"
                     getOptionSelected={(option, value) =>
                       option.id === value.id
                     }
@@ -277,7 +277,8 @@ class RoomDialog extends Component {
                     renderInput={(params) => (
                       <TextValidator
                         {...params}
-                        value={listType}
+                        value={types}
+                        variant="outlined"
                         label={
                           <span>
                             <span style={{ color: "red" }}>*</span>
@@ -296,11 +297,10 @@ class RoomDialog extends Component {
                 {listPPromotion && (
                   <Autocomplete
                     multiple
-                    variant="outlined"
+                    size="small"
                     options={listPPromotion ? listPPromotion : []}
                     defaultValue={promotions ? promotions : []}
                     disableClearable
-                    inputVariant="outlined"
                     // disableCloseOnSelect
                     getOptionSelected={(option, value) =>
                       option.id === value.id
@@ -324,11 +324,12 @@ class RoomDialog extends Component {
                     renderInput={(params) => (
                       <TextValidator
                         {...params}
-                        value={listPPromotion}
+                        value={promotions}
+                        variant="outlined"
                         label={
                           <span>
                             <span style={{ color: "red" }}>*</span>
-                            {t("Loại phòng")}
+                            {t("Khuyến mãi")}
                           </span>
                         }
                         fullWidth
@@ -343,8 +344,7 @@ class RoomDialog extends Component {
                 {listPrice && (
                   <Autocomplete
                     multiple
-                    variant="outlined"
-                    inputVariant="outlined"
+                    size="small"
                     options={listPrice ? listPrice : []}
                     defaultValue={prices ? prices : []}
                     disableClearable
@@ -371,7 +371,8 @@ class RoomDialog extends Component {
                     renderInput={(params) => (
                       <TextValidator
                         {...params}
-                        value={listPrice}
+                        value={prices}
+                        variant="outlined"
                         label={
                           <span>
                             <span style={{ color: "red" }}>*</span>

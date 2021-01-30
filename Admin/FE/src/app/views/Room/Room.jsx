@@ -46,7 +46,7 @@ function MaterialButton(props) {
 
 class Room extends Component {
   state = {
-    rowsPerPage: 25,
+    rowsPerPage: 10,
     page: 0,
     itemList: [],
     item: {},
@@ -438,6 +438,8 @@ class Room extends Component {
                   backgroundColor:
                     rowData.tableData.id % 2 === 0 ? "#ffffff" : "#eeeeee",
                 }),
+                maxBodyHeight: '450px',
+                minBodyHeight: '370px',
                 selection: true,
                 actionsColumnIndex: -1,
                 paging: false,

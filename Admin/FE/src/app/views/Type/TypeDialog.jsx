@@ -11,16 +11,18 @@ import {
   DialogActions,
   Checkbox,
 } from "@material-ui/core";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import { Autocomplete } from "@material-ui/lab";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import {
   addNewData,
   updateData,
-  getItemById,
   checkCode,
-  checkName,
 } from "./TypeService";
+import {searchByPage as getAmenities } from "../Ameniti/AmenitiService";
 import DialogContent from "@material-ui/core/DialogContent";
 import Draggable from "react-draggable";
 import Paper from "@material-ui/core/Paper";
@@ -62,8 +64,11 @@ class TypeDialog extends Component {
     name: "",
     code: "",
     value: "",
+    adults: "",
+    listAmenities: [],
+    amenities: [],
     totalElements: 0,
-    rowsPerPage: 25,
+    rowsPerPage: 10,
     page: 0,
   };
 
@@ -113,18 +118,26 @@ class TypeDialog extends Component {
     this.setState({
       ...this.props.item,
     });
-  }
-  handleCheck = () => {
+    getAmenities({pageSize: 10000, pageIndex: 1}).then(({data}) => {
       this.setState({
-        children: !this.state.children,
+        listAmenities: [...data.content],
       })
+    })
   }
+  selectAmenities = (select) => {
+    this.setState({
+      amenities: select,
+    })
+  }
+
 
   render() {
     let { id } = this.state;
     console.log(id);
-    let { name, code, description, children, disabled } = this.state;
-    let { open, handleClose, handleOKEditClose, t, i18n } = this.props;
+    let { name, code, description, children, adults, disabled, listAmenities, amenities } = this.state;
+    let { open,  t } = this.props;
+    const checkedIcon = <CheckBoxIcon fontSize="small" />;
+    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     return (
       <Dialog open={open} PaperComponent={PaperComponent} maxWidth="md">
         <ValidatorForm ref="form" onSubmit={this.handleFormSubmit}>
@@ -170,21 +183,82 @@ class TypeDialog extends Component {
                   errorMessages={["this field is required"]}
                 />
               </Grid>
-              <Grid item md={12} sm={12} xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={children ? true : false}
-                      onChange={this.handleCheck}
-                      name="children"
-                      color="secondary"
-                      style={{padding: "0px 12px"}}
-                    />
-                  }
-                  label={t("isChild")}
+              <Grid item md={6} sm={6} xs={12}>
+                <TextValidator
+                  className="w-100"
+                  label={t("children")}
+                  onChange={this.handleChange}
+                  type="text"
+                  size="small"
+                  variant="outlined"
+                  name="children"
+                  value={children}
+                  validators={["required"]}
+                  errorMessages={["this field is required"]}
                 />
               </Grid>
-              <Grid item md={12} sm={12} xs={12}>
+              <Grid item md={6} sm={6} xs={12}>
+                <TextValidator
+                  className="w-100"
+                  label={t("adults")}
+                  onChange={this.handleChange}
+                  type="text"
+                  size="small"
+                  variant="outlined"
+                  name="adults"
+                  value={adults}
+                  validators={["required"]}
+                  errorMessages={["this field is required"]}
+                />
+              </Grid>
+              <Grid item  md={6} sm={6} xs={12}>
+                {listAmenities && (
+                  <Autocomplete
+                    multiple
+                    options={listAmenities ? listAmenities : []}
+                    defaultValue={amenities ? amenities : []}
+                    disableClearable
+                    inputVariant="outlined"
+                    size="small"
+                    getOptionSelected={(option, value) =>
+                      option.id === value.id
+                    }
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, value) => {
+                      this.selectAmenities(value);
+                    }}
+                    renderOption={(option, { selected }) => (
+                      <React.Fragment>
+                        <Checkbox
+                          icon={icon}
+                          checkedIcon={checkedIcon}
+                          style={{ marginRight: 8 }}
+                          checked={selected}
+                        />
+                        {option.name}
+                      </React.Fragment>
+                    )}
+                    style={{ width: "100%" }}
+                    renderInput={(params) => (
+                      <TextValidator
+                        {...params}
+                        value={listAmenities}
+                        variant="outlined"
+                        label={
+                          <span>
+                            <span style={{ color: "red" }}>*</span>
+                            {t("Tiện nghi")}
+                          </span>
+                        }
+                        fullWidth
+                        validators={["required"]}
+                        errorMessages={[t("Validation.this_field_is_required")]}
+                      />
+                    )}
+                  />
+                )}
+              </Grid>
+              <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100"
                   label={t("desc")}

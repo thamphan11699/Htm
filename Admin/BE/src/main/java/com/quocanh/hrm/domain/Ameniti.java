@@ -5,34 +5,25 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.ws.Action;
 import java.util.Set;
 
 @XmlRootElement
-@Table(name = "tbl_type")
+@Table(name = "tbl_ameniti")
 @Entity
-public class Type extends BaseObject{
+public class Ameniti extends BaseObject{
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "code")
     private String code;
 
-    @Column(name = "adults")
-    private int adults;
-
-    @Column(name = "children")
-    private int children;
-
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ameniti", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
     private Set<TypeAmeniti> typeAmenitis;
-
-    @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<RoomType> roomTypes;
 
     public String getName() {
         return name;
@@ -50,22 +41,6 @@ public class Type extends BaseObject{
         this.code = code;
     }
 
-    public int getAdults() {
-        return adults;
-    }
-
-    public void setAdults(int adults) {
-        this.adults = adults;
-    }
-
-    public int getChildren() {
-        return children;
-    }
-
-    public void setChildren(int children) {
-        this.children = children;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -80,13 +55,5 @@ public class Type extends BaseObject{
 
     public void setTypeAmenitis(Set<TypeAmeniti> typeAmenitis) {
         this.typeAmenitis = typeAmenitis;
-    }
-
-    public Set<RoomType> getRoomTypes() {
-        return roomTypes;
-    }
-
-    public void setRoomTypes(Set<RoomType> roomTypes) {
-        this.roomTypes = roomTypes;
     }
 }
