@@ -1,15 +1,11 @@
 package com.quocanh.hrm.Service.Iml;
 
 import com.quocanh.hrm.Service.TypeService;
-import com.quocanh.hrm.domain.Ameniti;
-import com.quocanh.hrm.domain.Type;
-import com.quocanh.hrm.domain.TypeAmeniti;
+import com.quocanh.hrm.domain.*;
 import com.quocanh.hrm.dto.AmenitiDto;
 import com.quocanh.hrm.dto.TypeDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
-import com.quocanh.hrm.repository.AmenitiRepository;
-import com.quocanh.hrm.repository.TypeAmenitiRepository;
-import com.quocanh.hrm.repository.TypeRepository;
+import com.quocanh.hrm.repository.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +40,13 @@ public class TypeServiceIm implements TypeService {
 
     @Autowired
     AmenitiRepository amenitiRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
+
+    @Autowired
+    TypeImageRepository typeImageRepository;
+
 
     @Override
     public Page<TypeDto> searchByPage(SearchDto dto) {
@@ -199,5 +202,18 @@ public class TypeServiceIm implements TypeService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public TypeDto updateImage(List<Long> imageDtos, Long id) {
+        Type entity = typeRepository.getOne(id);
+        for (Long iamgeId : imageDtos) {
+            Image image = imageRepository.getOne(iamgeId);
+            TypeImage typeImage = new TypeImage();
+            typeImage.setImage(image);
+            typeImage.setType(entity);
+            typeImageRepository.save(typeImage);
+        }
+        return new TypeDto(entity, true);
     }
 }

@@ -8,16 +8,16 @@
 
 @keyframes slide {
     25% {
-        background-image: url("http://localhost:3001/assets/img/slide1.jpg");
+        background-image: url("http://localhost:3001/assets/img/bg1.jpg");
         
     }
     50% {
-        background-image: url("http://localhost:3001/assets/img/slide2.jpg");
+        background-image: url("http://localhost:3001/assets/img/bg3.jpg");
     }
     75% {
-        background-image: url("http://localhost:3001/assets/img/slide3.jpg");
+        background-image: url("http://localhost:3001/assets/img/bg4.jpg");
     } 
     100% {
-        background-image: url("http://localhost:3001/assets/img/slide4.jpg");
+        background-image: url("http://localhost:3001/assets/img/bg1.jpg");
     }
 }

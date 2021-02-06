@@ -28,11 +28,15 @@ public class Type extends BaseObject{
     private String description;
 
     @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @NotFound(action = NotFoundAction.IGNORE)
     private Set<TypeAmeniti> typeAmenitis;
 
     @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<RoomType> roomTypes;
+
+    @OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<TypeImage> typeImages;
+
+
 
     public String getName() {
         return name;
@@ -88,5 +92,13 @@ public class Type extends BaseObject{
 
     public void setRoomTypes(Set<RoomType> roomTypes) {
         this.roomTypes = roomTypes;
+    }
+
+    public Set<TypeImage> getTypeImages() {
+        return typeImages;
+    }
+
+    public void setTypeImages(Set<TypeImage> typeImages) {
+        this.typeImages = typeImages;
     }
 }

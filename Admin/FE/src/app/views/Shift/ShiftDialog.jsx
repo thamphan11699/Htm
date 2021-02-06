@@ -129,7 +129,7 @@ class ShiftDialog extends Component {
     let { name, code, startTime, endTime, totalHours, disabled } = this.state;
     let { open, handleClose, handleOKEditClose, t, i18n } = this.props;
     return (
-      <Dialog open={open} PaperComponent={PaperComponent} maxWidth="md">
+      <Dialog open={open} PaperComponent={PaperComponent} maxWidth="sm">
         <ValidatorForm ref="form" onSubmit={this.handleFormSubmit}>
           <div
             style={{ cursor: "move" }}
@@ -177,8 +177,9 @@ class ShiftDialog extends Component {
                 <MuiPickersUtilsProvider utils={DateFnsUtils} variant="outlined">
                   <KeyboardTimePicker
                     className="w-100"
-                    margin="normal"
                     id="time-picker"
+                    inputVariant="outlined"
+                    size="small"
                     label={t("startTime")}
                     value={startTime ? startTime : null}
                     onChange={this.handleChangeStartTime}
@@ -191,9 +192,9 @@ class ShiftDialog extends Component {
               <Grid item md={6} sm={6} xs={12}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} variant="outlined">
                   <KeyboardTimePicker
-                    variant="outlined"
                     className="w-100"
-                    margin="normal"
+                    inputVariant="outlined"
+                    size="small"
                     id="time-picker"
                     label={t("endTime")}
                     value={endTime ? endTime : null}

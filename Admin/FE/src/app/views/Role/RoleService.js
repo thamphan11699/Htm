@@ -1,9 +1,8 @@
 import axios from "axios";
 import ConstantList from "../../appConfig";
-const API_PATH_ROLE = ConstantList.API_ENPOINT + "/api/roles/";
+const API_PATH_ROLE = ConstantList.API_ENPOINT + "/api/role";
 
-export const searchByPage = (page, pageSize) => {
-  var params = page + "/" + pageSize;
-  var url = API_PATH_ROLE + params;
-  return axios.get(url);
+export const searchByPage = (searchObject) => {
+  var url = API_PATH_ROLE + "/searchByPage";
+  return axios.post(url, searchObject);
 };

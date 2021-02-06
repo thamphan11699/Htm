@@ -11,28 +11,20 @@ import {
   DialogActions,
   Checkbox,
 } from "@material-ui/core";
+import axios from "axios";
+import ConstantList from "../../appConfig";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { Autocomplete } from "@material-ui/lab";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import {
-  addNewData,
-  updateData,
-  checkCode,
-} from "./TypeService";
-import {searchByPage as getAmenities } from "../Ameniti/AmenitiService";
+import { addNewData, updateData, checkCode } from "./TypeService";
+import { searchByPage as getAmenities } from "../Ameniti/AmenitiService";
 import DialogContent from "@material-ui/core/DialogContent";
 import Draggable from "react-draggable";
 import Paper from "@material-ui/core/Paper";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import MaterialTable, {
-  MTableToolbar,
-  Chip,
-  MTableBody,
-  MTableHeader,
-} from "material-table";
+import UploadImage from "../forms/UploadImage";
 import { useTranslation, withTranslation, Trans } from "react-i18next";
 toast.configure();
 function PaperComponent(props) {
@@ -65,6 +57,7 @@ class TypeDialog extends Component {
     code: "",
     value: "",
     adults: "",
+    mainImageUrl: "",
     listAmenities: [],
     amenities: [],
     totalElements: 0,
@@ -82,6 +75,15 @@ class TypeDialog extends Component {
       [event.target.name]: event.target.value,
     });
   };
+  handleImageSelect = (files) => {
+    this.setState({ file: files });
+  };
+  handleImageRemove = () => {
+    this.setState({
+      file: null,
+      imagePreviewUrl: "",
+    });
+  };
 
   handleFormSubmit = () => {
     let { id } = this.state;
@@ -95,9 +97,33 @@ class TypeDialog extends Component {
         if (!id) {
           addNewData({
             ...this.state,
-          }).then(() => {
-            toast.success(t("general.success"));
-            this.props.handleOKEditClose();
+          }).then((res) => {
+            if (this.state.file != null) {
+              this.setState(
+                {
+                  loading: false,
+                  shouldOpenDialog: true,
+                  productId: res.data.id,
+                },
+                () => {}
+              );
+              if (this.state.file && this.state.file.length > 0) {
+                for (var i = 0; i < this.state.file.length; i++) {
+                  const url = ConstantList.API_ENPOINT + "/api/upload/type";
+                  let formData = new FormData();
+                  formData.append("file", this.state.file[i]);
+                  formData.append("typeId", res.data.id);
+                  const config = {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  };
+                  axios.post(url, formData, config);
+                }
+              }
+              toast.success(t("general.success"));
+              this.props.handleOKEditClose();
+            }
           });
         } else {
           updateData(
@@ -105,9 +131,33 @@ class TypeDialog extends Component {
               ...this.state,
             },
             id
-          ).then(() => {
-            toast.success(t("general.success"));
-            this.props.handleOKEditClose();
+          ).then((res) => {
+            if (this.state.file != null) {
+              this.setState(
+                {
+                  loading: false,
+                  shouldOpenDialog: true,
+                  productId: res.data.id,
+                },
+                () => {}
+              );
+              if (this.state.file && this.state.file.length > 0) {
+                for (var i = 0; i < this.state.file.length; i++) {
+                  const url = ConstantList.API_ENPOINT + "/api/upload/type";
+                  let formData = new FormData();
+                  formData.append("file", this.state.file[i]);
+                  formData.append("typeId", res.data.id);
+                  const config = {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  };
+                  axios.post(url, formData, config);
+                }
+              }
+              toast.success(t("general.success"));
+              this.props.handleOKEditClose();
+            }
           });
         }
       }
@@ -118,24 +168,34 @@ class TypeDialog extends Component {
     this.setState({
       ...this.props.item,
     });
-    getAmenities({pageSize: 10000, pageIndex: 1}).then(({data}) => {
+    getAmenities({ pageSize: 10000, pageIndex: 1 }).then(({ data }) => {
       this.setState({
         listAmenities: [...data.content],
-      })
-    })
+      });
+    });
   }
   selectAmenities = (select) => {
     this.setState({
       amenities: select,
-    })
-  }
-
+    });
+  };
 
   render() {
     let { id } = this.state;
-    console.log(id);
-    let { name, code, description, children, adults, disabled, listAmenities, amenities } = this.state;
-    let { open,  t } = this.props;
+    let {
+      name,
+      code,
+      description,
+      children,
+      adults,
+      disabled,
+      listAmenities,
+      amenities,
+      mainImageUrl,
+      images,
+    } = this.state;
+
+    let { open, t } = this.props;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     return (
@@ -155,6 +215,16 @@ class TypeDialog extends Component {
           </div>
           <DialogContent>
             <Grid className="mb-10 mt-10" container spacing={3}>
+              <Grid item md={12} sm={12} xs={12}>
+                <UploadImage
+                  className="w-30"
+                  handleImageSelect={this.handleImageSelect}
+                  handleImageRemove={this.handleImageRemove}
+                  mainImageUrl={mainImageUrl}
+                  imagePreviewUrl={images}
+                  t={t}
+                />
+              </Grid>
               <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100"
@@ -186,6 +256,20 @@ class TypeDialog extends Component {
               <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100"
+                  label={t("adults")}
+                  onChange={this.handleChange}
+                  type="text"
+                  size="small"
+                  variant="outlined"
+                  name="adults"
+                  value={adults}
+                  validators={["required"]}
+                  errorMessages={["this field is required"]}
+                />
+              </Grid>
+              <Grid item md={6} sm={6} xs={12}>
+                <TextValidator
+                  className="w-100"
                   label={t("children")}
                   onChange={this.handleChange}
                   type="text"
@@ -198,20 +282,6 @@ class TypeDialog extends Component {
                 />
               </Grid>
               <Grid item md={6} sm={6} xs={12}>
-                <TextValidator
-                  className="w-100"
-                  label={t("adults")}
-                  onChange={this.handleChange}
-                  type="text"
-                  size="small"
-                  variant="outlined"
-                  name="adults"
-                  value={adults}
-                  validators={["required"]}
-                  errorMessages={["this field is required"]}
-                />
-              </Grid>
-              <Grid item  md={6} sm={6} xs={12}>
                 {listAmenities && (
                   <Autocomplete
                     multiple

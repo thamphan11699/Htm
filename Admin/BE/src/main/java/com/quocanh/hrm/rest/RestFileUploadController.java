@@ -2,6 +2,7 @@ package com.quocanh.hrm.rest;
 
 import com.quocanh.hrm.Service.FileUploadService;
 import com.quocanh.hrm.dto.EmployeeDto;
+import com.quocanh.hrm.dto.TypeDto;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,12 @@ public class RestFileUploadController {
                                                    @RequestParam("employeeId") Long employeeId) {
         EmployeeDto dto = fileUploadService.avatarUpdate(uploadFile, employeeId);
         return new ResponseEntity<EmployeeDto>(dto, (dto != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/type")
+    public ResponseEntity<TypeDto> uploadTypeImage(@RequestParam("file") MultipartFile uploadFile, @RequestParam("typeId") Long typeId) {
+        TypeDto dto = fileUploadService.uploadImage(uploadFile, typeId);
+        return new ResponseEntity<TypeDto>(dto, (dto != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 
 

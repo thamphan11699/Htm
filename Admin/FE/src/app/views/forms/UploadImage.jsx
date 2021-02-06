@@ -11,7 +11,7 @@ class UploadImage extends Component {
     queProgress: 0,
     file: null,
     imagePreviewUrl: '',
-    imageArray:[],
+    imageArray: [],
     id: "upload-photo",
     imageArray: [] /* Replace imageURI with an array for multiple images */
 
@@ -97,7 +97,7 @@ class UploadImage extends Component {
   fileUpload(file) {
     const url = ConstantList.API_ENPOINT + '/api/file/upload'
     let formData = new FormData()
-    formData.append('uploadFile', file) //Lưu ý tên 'uploadfile' phải trùng với tham số bên Server side
+    formData.append('uploadfile', file) //Lưu ý tên 'uploadfile' phải trùng với tham số bên Server side
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -240,7 +240,7 @@ class UploadImage extends Component {
     }
 
     return (
-      <SimpleCard title={t('Product.mainImageUrl')} className="w-50" style={{ maxWidth: '100' }}>
+      <SimpleCard  className="w-50" style={{ maxWidth: '100' }}>
         <div className="flex flex-center flex-middle">
 
           <Grid
@@ -250,22 +250,22 @@ class UploadImage extends Component {
             alignItems="center"
             direction="row"
           >
-            { imagePreviewUrl?.length >0  ?
-          
-            
-          imagePreviewUrl.map(imageURI => (
-            <>
-              <Grid item lg={4} md={4} sm={12} xs={12}>
-                <img className="photo-uploaded" src={imageURI.url} alt="Photo uploaded" />
-              </Grid>
+            {imagePreviewUrl?.length > 0 ?
 
-            </>
-          ))
+
+              imagePreviewUrl.map(imageURI => (
+                <>
+                  <Grid item lg={4} md={4} sm={12} xs={12}>
+                    <img className="photo-uploaded" src={imageURI.url} alt="Ảnh tải lên" />
+                  </Grid>
+
+                </>
+              ))
               :
               this.state.imageArray?.map(imageURI => (
                 <>
                   <Grid item lg={4} md={4} sm={12} xs={12}>
-                    <img className="photo-uploaded" src={imageURI} alt="Photo uploaded" />
+                    <img className="photo-uploaded" src={imageURI} alt="Ảnh tải lên" />
                   </Grid>
 
                 </>
@@ -290,22 +290,22 @@ class UploadImage extends Component {
               >
                 <div className="flex flex-middle">
                   <Icon className="pr-8">cloud_upload</Icon>
-                  <span>Multiple File</span>
+                  <span>Chọn danh sách ảnh</span>
                 </div>
               </Fab>
             </label>
-            
             <input
               className="display-none"
               onChange={this.readURI}
               id="upload-multiple-file"
               type="file"
-              accept="image/*" 
+              accept="image/*"
+              multiple
             />
           </div>
-          <span style={{ marginLeft: '20px' }}> 
-          {this.state.imageArray?.length }
-          </span>
+          {/* <span style={{ marginLeft: '20px' }}>
+            {this.state.imageArray.length}
+          </span> */}
         </Card>
       </SimpleCard>
     )

@@ -5,7 +5,6 @@ import dashboardRoutes from "./views/dashboard/DashboardRoutes";
 import utilitiesRoutes from "./views/utilities/UtilitiesRoutes";
 import sessionRoutes from "./views/sessions/SessionRoutes";
 import materialRoutes from "./views/material-kit/MaterialRoutes";   
-import formsRoutes from "./views/forms/FormsRoutes";  
 import pageLayoutRoutes from "./views/page-layouts/PageLayoutRoutees";  
 import datatablePageRootes from "./views/MDBDataTable/DatatablePageRootes";
 import tablePageRoutes from "./views/MDBDataTable/TablePageRoutes";
@@ -59,7 +58,6 @@ const routes = [
   ...CategoriesRoutes,
   ...utilitiesRoutes,    
   ...ProductRoutes,
-  ...formsRoutes,   
   ...scrumBoardRoutes, 
   ...pageLayoutRoutes,
   ...otherRoutes,

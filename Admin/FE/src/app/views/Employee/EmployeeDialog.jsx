@@ -141,8 +141,8 @@ class EmployeeDialog extends Component {
                       },
                     };
                     axios.post(url, formData, config).then((res1) => {
-                      console.log("WWWWWWWWWWWWWW");
-                      console.log(res1);
+                      // console.log("WWWWWWWWWWWWWW");
+                      // console.log(res1);
                     });
                   }
                 })

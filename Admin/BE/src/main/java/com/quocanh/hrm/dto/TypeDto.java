@@ -1,10 +1,9 @@
 package com.quocanh.hrm.dto;
 
-import com.quocanh.hrm.domain.RoomType;
 import com.quocanh.hrm.domain.Type;
 import com.quocanh.hrm.domain.TypeAmeniti;
+import com.quocanh.hrm.domain.TypeImage;
 
-import javax.persistence.Column;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +14,7 @@ public class TypeDto extends BaseObjectDto{
     private int children;
     private String description;
     private Set<AmenitiDto> amenities;
+    private Set<ImageDto> images;
 
 
     public String getName() {
@@ -65,6 +65,14 @@ public class TypeDto extends BaseObjectDto{
         this.amenities = amenities;
     }
 
+    public Set<ImageDto> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ImageDto> images) {
+        this.images = images;
+    }
+
     public TypeDto() {}
 
     public TypeDto(Type entity) {
@@ -91,6 +99,13 @@ public class TypeDto extends BaseObjectDto{
             for (TypeAmeniti typeAmeniti: entity.getTypeAmenitis()) {
                 AmenitiDto amenitiDto = new AmenitiDto(typeAmeniti.getAmeniti());
                 this.amenities.add(amenitiDto);
+            }
+        }
+        if (entity.getTypeImages() != null && entity.getTypeImages().size() > 0) {
+            this.images = new HashSet<ImageDto>();
+            for (TypeImage typeImage : entity.getTypeImages()) {
+                ImageDto imageDto = new ImageDto(typeImage.getImage());
+                this.images.add(imageDto);
             }
         }
 
