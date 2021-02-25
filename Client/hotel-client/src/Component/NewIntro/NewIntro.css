@@ -1,0 +1,41 @@
+.new-intro {
+    max-width: 1200px;
+    margin: 0 auto !important;
+    height: 540px;
+    display: flex;
+    position: relative;
+}
+.new-intro-img {
+    background-image: url("https://hanoihotel.com.vn/wp-content/uploads/sites/97/2020/04/Fixx-Spa-1-1-700x700.jpg");
+    background-repeat: no-repeat;
+    width: 60%;
+    height: 75%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.new-intro-text {
+    width: 60%;
+    height: 75%;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background-color: #fff;
+    z-index: 1;
+}
+.new-intro-content {
+    text-align: left;
+    color: #555;
+    font-size: 16px;
+    letter-spacing: 1px;
+    line-height: 2;
+}
+.new-intro-img-seconds {
+    background-image: url("https://hanoihotel.com.vn/wp-content/uploads/sites/97/2020/04/Fixx-Spa-3-700x700.jpg");
+    background-repeat: no-repeat;
+    width: 30%;
+    height: 65%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
