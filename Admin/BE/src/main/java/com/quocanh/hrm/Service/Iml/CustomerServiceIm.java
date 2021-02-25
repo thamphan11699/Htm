@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -118,6 +119,17 @@ public class CustomerServiceIm implements CustomerService {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
         Page<CustomerDto> result = new PageImpl<CustomerDto>(entities, pageable, count);
         return result;
+    }
+
+    @Override
+    public List<CustomerDto> getAll() {
+        List<Customer> entities = customerRepository.findAll();
+        List<CustomerDto> dtos = new ArrayList<>();
+        for (Customer customer : entities) {
+            CustomerDto dto = new CustomerDto(customer);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override

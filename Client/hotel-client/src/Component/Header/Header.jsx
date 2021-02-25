@@ -91,35 +91,25 @@ class Header extends Component {
                       </li>
                     );
                   })}
-                  {/* <li className="list-type-item">
-                      <Link to="/accommodation/3" className="list-type-link">
-                        Phòng Deluxe
-                      </Link>
-                    </li>
-                    <li className="list-type-item">
-                      <Link to="/accommodation/3" className="list-type-link">
-                        Bộ Deluxe
-                      </Link>
-                    </li> */}
                 </ul>
               </li>
               <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  Dịch vụ ăn uống
+                <Link to="/facilities" className="nav-link">
+                  Cơ sở vật chất
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/" className="nav-link">
+                <Link to="/offer" className="nav-link">
                   Ưu đãi
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/" className="nav-link">
+                <Link to="/meeting" className="nav-link">
                   Họp và sự kiện
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/" className="nav-link">
+                <Link to="/contact" className="nav-link">
                   Liên hệ với chúng tôi
                 </Link>
               </li>

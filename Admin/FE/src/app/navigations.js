@@ -49,6 +49,11 @@ export const navigations = [
         path: ConstantList.ROOT_PATH + "customer-used",
         icon: "category",
       },
+      {
+        name: "FeedBack.title",
+        path: ConstantList.ROOT_PATH + "feed-back",
+        icon: "category",
+      },
     ]
   }, 
   {

@@ -1,52 +1,64 @@
 import React, { Component } from "react";
-import Header from "../../Header/Header";
-import Footer from "../../Footer/Footer";
-import Banner from "../../Banner/Banner";
 import PreviewPage from "../../PreviewPage/PreviewPage";
-import {getTypeById} from "./AccommodationService";
+import { getTypeById } from "./AccommodationService";
 import "./Accommodation.css";
 
 class Accommodation extends Component {
   state = {
-    type: {}
-  }
+    type: {},
+  };
   componentWillMount() {
     let id = this.props.match.params.type;
-    getTypeById(id).then(({data}) => {
-      this.setState({type: data});
-      // window.location.reload();
-    });
+    getTypeById(id).then(
+      ({ data }) => {
+        this.setState({ type: data });
+        // window.location.reload();
+      },
+      () => {}
+    );
   }
 
   render() {
-    let {type} = this.state;
+    let { type } = this.state;
+    // console.log(type);
     return (
       <div>
-        <Header />
-        <Banner />
+        <div className="banner-a">
+
+        </div>
         <div
           className="intro-type"
-          style={{ maxWidth: "800px", margin: "0 auto", padding: "60px 0"}}
+          style={{ maxWidth: "800px", margin: "0 auto", padding: "60px 0" }}
         >
           <h3 className="intro-title">{type.name + " room"}</h3>
           <p className="intro-content" style={{}}>
-              {type != null ? type.description : ""}
+            {type != null ? type.description : ""}
           </p>
         </div>
         <div className="info">
-            <div className="info-content">
-                <p style={{marginTop: 100}}><span style={{fontWeight: 'bold'}}>Số người tối đa</span>:{type.adults + ' người lớn' + '(' + type.children + ' trẻ em' + ')'}</p>
-                <h3 className="intro-title">Tiện nghi</h3>
-                <ul className="list-amenities">
-                    {type.amenities != null && type.amenities.length > 0 && type.amenities.map((amenities, index) => {
-                      return (
-                        <li key={index} className="amenities-item">
-                          -{amenities.name}
-                        </li>
-                      )
-                    })}
+          <div className="info-content">
+            <p style={{ marginTop: 100 }}>
+              <span style={{ fontWeight: "bold" }}>Số người tối đa</span>:
+              {type.adults +
+                " người lớn" +
+                "(" +
+                type.children +
+                " trẻ em" +
+                ")"}
+            </p>
+            <h3 className="intro-title">Tiện nghi</h3>
+            <ul className="list-amenities">
+              {type.amenities != null &&
+                type.amenities.length > 0 &&
+                type.amenities.map((amenities, index) => {
+                  return (
+                    <li key={index} className="amenities-item">
+                      -{amenities.name}
+                    </li>
+                  );
+                })}
 
-                    {/* <li className="amenities-item">
+              {/* <li className="amenities-item">
                         -Free wifi
                     </li>
                     <li className="amenities-item">
@@ -64,13 +76,20 @@ class Accommodation extends Component {
                     <li className="amenities-item">
                         -Két an toàn
                     </li> */}
-                </ul>
-            </div>
+            </ul>
+          </div>
         </div>
-        <div style={{width: '100%', height: '520px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <PreviewPage/>
+        <div
+          style={{
+            width: "100%",
+            height: "520px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <PreviewPage />
         </div>
-        <Footer />
       </div>
     );
   }

@@ -7,8 +7,11 @@ import com.quocanh.hrm.dto.serachdto.CustomerSearchDto;
 import com.quocanh.hrm.dto.serachdto.SearchDto;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface CustomerService {
     Page<CustomerDto> searchByPage(CustomerSearchDto dto);
+    List<CustomerDto> getAll();
     CustomerDto Booking(CustomerDto dto, Long id);
     CustomerDto checkIn(CustomerDto dto, Long id);
     CustomerDto checkOut(CustomerDto dto, Long id);

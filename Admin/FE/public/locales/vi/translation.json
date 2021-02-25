@@ -313,5 +313,8 @@
   },
   "WaitCheckIn": {
     "title" : "Khách hàng chờ check in"
+  }, 
+  "FeedBack": {
+    "title" : "Ý kiến khách hàng"
   }
 }

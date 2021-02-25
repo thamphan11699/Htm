@@ -8,18 +8,18 @@ import {
   Checkbox,
   Fab,
   Avatar,
-  Hidden
+  Hidden,
 } from "@material-ui/core";
 
 import { Breadcrumb, SimpleCard, EgretProgressBar } from "egret";
 import DashboardWelcomeCard from "../cards/DashboardWelcomeCard";
 import AreaChart from "../charts/echarts/AreaChart";
-import { getDashboardAnalytics } from "./DashboardService";
+import { getAnalytics } from "./DashboardService";
 import { format } from "date-fns";
 import ModifiedAreaChart from "./ModifiedAreaChart";
 import { withStyles } from "@material-ui/styles";
-import { Helmet } from 'react-helmet';
-import { useTranslation, withTranslation, Trans } from 'react-i18next';
+import { Helmet } from "react-helmet";
+import { useTranslation, withTranslation, Trans } from "react-i18next";
 import localStorageService from "../../services/localStorageService";
 
 class Dashboard1 extends Component {
@@ -28,44 +28,57 @@ class Dashboard1 extends Component {
     assetCountByDate: [],
     allocationVoucherCountByDate: [],
     transferVoucherCountByDate: [],
-    maintainRequestCountByDate: []
+    maintainRequestCountByDate: [],
   };
 
   componentDidMount() {
     this.updatePageData();
   }
   updatePageData = () => {
-    // getDashboardAnalytics().then(({ data }) => {
-    //   this.setState({
-    //     analytics: data,
-    //     assetCountByDate: data.assetCountByDate,
-    //     allocationVoucherCountByDate: data.allocationVoucherCountByDate,
-    //     transferVoucherCountByDate: data.transferVoucherCountByDate,
-    //     maintainRequestCountByDate: data.maintainRequestCountByDate
-    //   })
-    // });
+    getAnalytics().then(({ data }) => {
+      this.setState({ listCustomer: data }, () => {
+        var tmp = {};
+        tmp.countCustom = data.length;
+        var totalMoney = 0;
+        var customerNow = 0;
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].total_money != null) {
+            totalMoney += parseInt(data[i].total_money);
+          }
+          if (data[i].status == "CHECK_IN") {
+            customerNow += 1
+          }
+        }
+        tmp.totalMoney = totalMoney;
+        tmp.customerNow = customerNow;
+        this.setState({analytics: tmp})
+      });
+    });
   };
 
   render() {
-    let user = localStorageService.getItem('auth_user');
+    let user = localStorageService.getItem("auth_user");
     console.log(user);
-    const { theme} = this.props;
+    const { theme } = this.props;
     const { t, i18n } = this.props;
     let TitlePage = t("Dashboard.dashboard");
 
-    let { analytics, assetCountByDate, allocationVoucherCountByDate, transferVoucherCountByDate, maintainRequestCountByDate } = this.state;
+    let {
+      analytics,
+      assetCountByDate,
+      allocationVoucherCountByDate,
+      transferVoucherCountByDate,
+      maintainRequestCountByDate,
+    } = this.state;
     return (
-
       <div className="analytics m-sm-30">
         <Helmet>
-          <title>{t("Dashboard.dashboard")} | {t("web_site")}</title>
+          <title>
+            {t("Dashboard.dashboard")} | {t("web_site")}
+          </title>
         </Helmet>
         <div className="mb-sm-30">
-          <Breadcrumb
-            routeSegments={[
-              { name: t("Dashboard.dashboard") }
-            ]}
-          />
+          <Breadcrumb routeSegments={[{ name: t("Dashboard.dashboard") }]} />
         </div>
         <Grid container spacing={3}>
           <Grid item lg={12} md={12} sm={12} xs={12}>
@@ -80,7 +93,7 @@ class Dashboard1 extends Component {
                   xAxis: {
                     data: assetCountByDate.map(function (item) {
                       return new Date(item["date"]).toLocaleDateString();
-                    })
+                    }),
                   },
                   series: [
                     {
@@ -92,28 +105,34 @@ class Dashboard1 extends Component {
                       smooth: true,
                       lineStyle: {
                         width: 3,
-                        color: theme.palette.primary.main
+                        color: theme.palette.primary.main,
                       },
                       markLine: {
                         silent: true,
-                        data: [{
-                          yAxis: 50
-                        }, {
-                          yAxis: 100
-                        }, {
-                          yAxis: 150
-                        }, {
-                          yAxis: 200
-                        }, {
-                          yAxis: 300
-                        }]
-                      }
-                    }
+                        data: [
+                          {
+                            yAxis: 50,
+                          },
+                          {
+                            yAxis: 100,
+                          },
+                          {
+                            yAxis: 150,
+                          },
+                          {
+                            yAxis: 200,
+                          },
+                          {
+                            yAxis: 300,
+                          },
+                        ],
+                      },
+                    },
                   ],
                   yAxis: {
                     axisLabel: {
-                      color: theme.palette.text.secondary
-                    }
+                      color: theme.palette.text.secondary,
+                    },
                   },
                   color: [
                     {
@@ -125,32 +144,29 @@ class Dashboard1 extends Component {
                       colorStops: [
                         {
                           offset: 0,
-                          color: theme.palette.primary.light // color at 0% position
+                          color: theme.palette.primary.light, // color at 0% position
                         },
                         {
                           offset: 1,
-                          color: "rgba(255,255,255,0)" // color at 100% position
-                        }
+                          color: "rgba(255,255,255,0)", // color at 100% position
+                        },
                       ],
-                      global: false // false by default
-                    }
-                  ]
+                      global: false, // false by default
+                    },
+                  ],
                 }}
               ></ModifiedAreaChart>
             </SimpleCard>
-    
-    
-    
           </Grid>
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <SimpleCard title= {t('Dashboard.count_of_allocations')} >
+            <SimpleCard title={t("Dashboard.count_of_allocations")}>
               <ModifiedAreaChart
                 height="280px"
                 option={{
                   xAxis: {
                     data: allocationVoucherCountByDate.map(function (item) {
                       return new Date(item["date"]).toLocaleDateString();
-                    })
+                    }),
                   },
                   series: [
                     {
@@ -162,28 +178,34 @@ class Dashboard1 extends Component {
                       smooth: true,
                       lineStyle: {
                         width: 3,
-                        color: theme.palette.primary.main
+                        color: theme.palette.primary.main,
                       },
                       markLine: {
                         silent: true,
-                        data: [{
-                          yAxis: 50
-                        }, {
-                          yAxis: 100
-                        }, {
-                          yAxis: 150
-                        }, {
-                          yAxis: 200
-                        }, {
-                          yAxis: 300
-                        }]
-                      }
-                    }
+                        data: [
+                          {
+                            yAxis: 50,
+                          },
+                          {
+                            yAxis: 100,
+                          },
+                          {
+                            yAxis: 150,
+                          },
+                          {
+                            yAxis: 200,
+                          },
+                          {
+                            yAxis: 300,
+                          },
+                        ],
+                      },
+                    },
                   ],
                   yAxis: {
                     axisLabel: {
-                      color: theme.palette.text.secondary
-                    }
+                      color: theme.palette.text.secondary,
+                    },
                   },
                   color: [
                     {
@@ -195,31 +217,29 @@ class Dashboard1 extends Component {
                       colorStops: [
                         {
                           offset: 0,
-                          color: theme.palette.primary.light // color at 0% position
+                          color: theme.palette.primary.light, // color at 0% position
                         },
                         {
                           offset: 1,
-                          color: "rgba(255,255,255,0)" // color at 100% position
-                        }
+                          color: "rgba(255,255,255,0)", // color at 100% position
+                        },
                       ],
-                      global: false // false by default
-                    }
-                  ]
+                      global: false, // false by default
+                    },
+                  ],
                 }}
               ></ModifiedAreaChart>
             </SimpleCard>
-      
           </Grid>
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <SimpleCard title={t('Dashboard.count_of_transfer')}>
+            <SimpleCard title={t("Dashboard.count_of_transfer")}>
               <ModifiedAreaChart
                 height="280px"
                 option={{
-
                   xAxis: {
                     data: transferVoucherCountByDate.map(function (item) {
                       return new Date(item["date"]).toLocaleDateString();
-                    })
+                    }),
                   },
                   series: [
                     {
@@ -231,28 +251,34 @@ class Dashboard1 extends Component {
                       smooth: true,
                       lineStyle: {
                         width: 3,
-                        color: theme.palette.primary.main
+                        color: theme.palette.primary.main,
                       },
                       markLine: {
                         silent: true,
-                        data: [{
-                          yAxis: 50
-                        }, {
-                          yAxis: 100
-                        }, {
-                          yAxis: 150
-                        }, {
-                          yAxis: 200
-                        }, {
-                          yAxis: 300
-                        }]
-                      }
-                    }
+                        data: [
+                          {
+                            yAxis: 50,
+                          },
+                          {
+                            yAxis: 100,
+                          },
+                          {
+                            yAxis: 150,
+                          },
+                          {
+                            yAxis: 200,
+                          },
+                          {
+                            yAxis: 300,
+                          },
+                        ],
+                      },
+                    },
                   ],
                   yAxis: {
                     axisLabel: {
-                      color: theme.palette.text.secondary
-                    }
+                      color: theme.palette.text.secondary,
+                    },
                   },
                   color: [
                     {
@@ -264,30 +290,29 @@ class Dashboard1 extends Component {
                       colorStops: [
                         {
                           offset: 0,
-                          color: theme.palette.primary.light // color at 0% position
+                          color: theme.palette.primary.light, // color at 0% position
                         },
                         {
                           offset: 1,
-                          color: "rgba(255,255,255,0)" // color at 100% position
-                        }
+                          color: "rgba(255,255,255,0)", // color at 100% position
+                        },
                       ],
-                      global: false // false by default
-                    }
-                  ]
+                      global: false, // false by default
+                    },
+                  ],
                 }}
               ></ModifiedAreaChart>
             </SimpleCard>
-      
           </Grid>
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <SimpleCard title={t('Dashboard.asset_broken')}>
+            <SimpleCard title={t("Dashboard.asset_broken")}>
               <ModifiedAreaChart
                 height="280px"
                 option={{
                   xAxis: {
                     data: maintainRequestCountByDate.map(function (item) {
                       return new Date(item["date"]).toLocaleDateString();
-                    })
+                    }),
                   },
                   series: [
                     {
@@ -299,28 +324,34 @@ class Dashboard1 extends Component {
                       smooth: true,
                       lineStyle: {
                         width: 3,
-                        color: theme.palette.primary.main
+                        color: theme.palette.primary.main,
                       },
                       markLine: {
                         silent: true,
-                        data: [{
-                          yAxis: 50
-                        }, {
-                          yAxis: 100
-                        }, {
-                          yAxis: 150
-                        }, {
-                          yAxis: 200
-                        }, {
-                          yAxis: 300
-                        }]
-                      }
-                    }
+                        data: [
+                          {
+                            yAxis: 50,
+                          },
+                          {
+                            yAxis: 100,
+                          },
+                          {
+                            yAxis: 150,
+                          },
+                          {
+                            yAxis: 200,
+                          },
+                          {
+                            yAxis: 300,
+                          },
+                        ],
+                      },
+                    },
                   ],
                   yAxis: {
                     axisLabel: {
-                      color: theme.palette.text.secondary
-                    }
+                      color: theme.palette.text.secondary,
+                    },
                   },
                   color: [
                     {
@@ -332,20 +363,19 @@ class Dashboard1 extends Component {
                       colorStops: [
                         {
                           offset: 0,
-                          color: theme.palette.primary.light // color at 0% position
+                          color: theme.palette.primary.light, // color at 0% position
                         },
                         {
                           offset: 1,
-                          color: "rgba(255,255,255,0)" // color at 100% position
-                        }
+                          color: "rgba(255,255,255,0)", // color at 100% position
+                        },
                       ],
-                      global: false // false by default
-                    }
-                  ]
+                      global: false, // false by default
+                    },
+                  ],
                 }}
               ></ModifiedAreaChart>
             </SimpleCard>
-      
           </Grid>
         </Grid>
       </div>

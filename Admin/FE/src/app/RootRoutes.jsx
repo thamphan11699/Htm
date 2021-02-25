@@ -32,6 +32,7 @@ import CheckInRouters from "./views/CheckIn/CheckInRouters";
 import ListCustomerRouters from "./views/ListCustomer/ListCustomerRouters";
 import CustomerUsedRouters from "./views/CustomerUsed/CustomerUsedRouters";
 import AmenitiRouters from "./views/Ameniti/AmenitiRouters";
+import FeedBackRoutes from "./views/FeedBack/FeedBackRouters";
 import ConstantList from "./appConfig";  
 const redirectRoute = [
   {
@@ -78,6 +79,7 @@ const routes = [
   ...CheckInRouters,
   ...ListCustomerRouters,
   ...CustomerUsedRouters,
+  ...FeedBackRoutes,
   ...AmenitiRouters,
   ...redirectRoute, 
   ...errorRoute,

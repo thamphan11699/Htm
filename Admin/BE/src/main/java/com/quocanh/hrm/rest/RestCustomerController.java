@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(value = "*")
 @RequestMapping(path = "api/customer")
@@ -63,6 +65,12 @@ public class RestCustomerController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CustomerDto> getOne(@PathVariable("id") Long id) {
         CustomerDto result = customerService.getOne(id);
+        return  new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity<List<CustomerDto>> getAll() {
+        List<CustomerDto> result = customerService.getAll();
         return  new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
     }
 

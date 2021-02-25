@@ -285,5 +285,8 @@
   },
   "WaitCheckIn": {
     "title" : "Wait check in"
+  },
+  "FeedBack": {
+    "title" : "FeedBack management"
   }
 }
