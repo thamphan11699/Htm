@@ -12,4 +12,5 @@ public interface RoomService {
     void delete(Long id);
     boolean checkCodeWasUsed(String code, Long id);
     boolean checkNameWasUsed(String name, Long id);
+    boolean checkRomm();
 }

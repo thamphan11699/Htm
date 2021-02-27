@@ -85,7 +85,7 @@ class Dashboard1 extends Component {
             <DashboardWelcomeCard t={t} analytics={analytics} />
           </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12}>
+          {/* <Grid item lg={6} md={6} sm={12} xs={12}>
             <SimpleCard title={t("Dashboard.asset")}>
               <ModifiedAreaChart
                 height="280px"
@@ -376,7 +376,7 @@ class Dashboard1 extends Component {
                 }}
               ></ModifiedAreaChart>
             </SimpleCard>
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     );

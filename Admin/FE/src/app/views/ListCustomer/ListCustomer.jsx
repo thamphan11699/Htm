@@ -7,6 +7,10 @@ import {
   Button,
   TextField,
   Tooltip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import MaterialTable, {
   MTableToolbar,
@@ -14,7 +18,7 @@ import MaterialTable, {
   MTableBody,
   MTableHeader,
 } from "material-table";
-import {  searchByPage } from "./ListCustomerService";
+import { searchByPage } from "./ListCustomerService";
 import { Breadcrumb, ConfirmationDialog } from "egret";
 import { useTranslation, withTranslation, Trans } from "react-i18next";
 import { saveAs } from "file-saver";
@@ -57,6 +61,7 @@ class ListCustomer extends Component {
     totalElements: 0,
     shouldOpenConfirmationDeleteAllDialog: false,
     keyword: "",
+    typeStatus: 5,
   };
   numSelected = 0;
   rowCount = 0;
@@ -93,7 +98,7 @@ class ListCustomer extends Component {
       searchObject.keyword = this.state.keyword;
       searchObject.pageIndex = this.state.page + 1;
       searchObject.pageSize = this.state.rowsPerPage;
-      searchObject.customerType = 5;
+      searchObject.customerType = this.state.typeStatus;
       searchByPage(searchObject).then(({ data }) => {
         this.setState({
           itemList: [...data.content],
@@ -108,7 +113,7 @@ class ListCustomer extends Component {
     searchObject.keyword = this.state.keyword;
     searchObject.pageIndex = this.state.page + 1;
     searchObject.pageSize = this.state.rowsPerPage;
-    searchObject.customerType = 5;
+    searchObject.customerType = this.state.typeStatus;
     searchByPage(searchObject).then(({ data }) => {
       this.setState({
         itemList: [...data.content],
@@ -258,6 +263,18 @@ class ListCustomer extends Component {
     }
   };
 
+  selectStatus = (event, selected) => {
+    event.persist();
+    this.setState(
+      {
+        typeStatus: event.target.value,
+      },
+      () => {
+        this.updatePageData();
+      }
+    );
+  };
+
   render() {
     const { t, i18n } = this.props;
     let {
@@ -272,6 +289,14 @@ class ListCustomer extends Component {
       shouldOpenConfirmationDeleteAllDialog,
     } = this.state;
     let TitlePage = t("ListCustomer.title");
+    let listStatus = [
+      { id: 5, name: "Tất cả"},
+      { id: 1, name: "Đang chờ check in"},
+      { id: 6, name: "Khách hàng đặt phòng"},
+      { id: 3, name: "Khách hàng đang ở"},
+      { id: 2, name: "Khách hàng bị từ chối"},
+      { id: 4, name: "Khách hàng check out"}
+    ]
     let columns = [
       //   { title: t("code"), field: "code", align: "left", width: "150" },
       { title: t("name"), field: "name", align: "left", width: "150" },
@@ -314,7 +339,7 @@ class ListCustomer extends Component {
       //   align: "left",
       //   width: "150",
       // },
-      { title: t("status"), field: "status", align: "left", width: "150" }
+      { title: t("status"), field: "status", align: "left", width: "150" },
     ];
 
     return (
@@ -328,29 +353,91 @@ class ListCustomer extends Component {
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            {/* <Button
-              className="mb-16 mr-16 align-bottom"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                this.handleEditItem({
-                  startDate: new Date(),
-                  endDate: new Date(),
-                });
-              }}
-            >
-              {t("general.add")}
-            </Button> */}
-            {/* <Button
-              className="mb-16 mr-36 align-bottom"
-              variant="contained"
-              color="primary"
-              onClick={() =>
-                this.setState({ shouldOpenConfirmationDeleteAllDialog: true })
-              }
-            >
-              {t("general.delete")}
-            </Button> */}
+            <Grid container spacing={3}>
+              <Grid
+                item
+                lg={4}
+                md={4}
+                sm={12}
+                xs={12}
+                style={{ marginTop: 10 }}
+              >
+                {/* <Button
+                  className="mr-16 align-bottom"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    this.handleEditItem({
+                      startDate: new Date(),
+                      endDate: new Date(),
+                    });
+                  }}
+                >
+                  {t("general.add")}
+                </Button>
+                <Button
+                  className="mr-36 align-bottom"
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    this.setState({
+                      shouldOpenConfirmationDeleteAllDialog: true,
+                    })
+                  }
+                >
+                  {t("general.delete")}
+                </Button> */}
+              </Grid>
+              <Grid
+                item
+                lg={4}
+                md={4}
+                sm={12}
+                xs={12}
+                style={{ marginTop: 10 }}
+              >
+                <FormControl fullWidth={true} variant="outlined" size="small">
+                  <InputLabel htmlFor="status">{t("Trạng thái")}</InputLabel>
+                  <Select
+                    value={this.state?.typeStatus ? this.state.typeStatus : ""}
+                    label={t("Trạng thái")}
+                    onChange={this.selectStatus}
+                    inputProps={{
+                      name: "status",
+                      id: "status",
+                    }}
+                  >
+                    {listStatus.map((item) => {
+                      return (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item lg={4} md={4} sm={12} xs={12}>
+                <TextField
+                  label={t("Tìm kiếm")}
+                  className="mb-16 mr-10"
+                  style={{ width: 350 }}
+                  type="text"
+                  name="keyword"
+                  value={keyword}
+                  onKeyDown={this.handleKeyDownEnterSearch}
+                  onChange={this.handleTextChange}
+                />
+                <Button
+                  className="mb-16 mr-16 align-bottom"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => this.search(keyword)}
+                >
+                  <Icon fontSize="default">search</Icon>
+                </Button>
+              </Grid>
+            </Grid>
 
             {shouldOpenConfirmationDeleteAllDialog && (
               <ConfirmationDialog
@@ -363,7 +450,7 @@ class ListCustomer extends Component {
                 cancel={t("general.cancel")}
               />
             )}
-            <TextField
+            {/* <TextField
               label={t("search")}
               className="mb-16 mr-10"
               style={{ width: 350 }}
@@ -380,7 +467,7 @@ class ListCustomer extends Component {
               onClick={() => this.search(keyword)}
             >
               <Icon fontSize="default">search</Icon>
-            </Button>
+            </Button> */}
           </Grid>
           <Grid item xs={12}>
             <div>

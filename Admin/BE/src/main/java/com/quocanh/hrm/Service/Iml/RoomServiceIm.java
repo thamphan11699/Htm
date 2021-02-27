@@ -89,6 +89,15 @@ public class RoomServiceIm implements RoomService {
         if (dto.getType() != null && StringUtils.hasText(dto.getType())) {
             whereClause += " AND ( UPPER(T.name) LIKE UPPER(:type) ) AND entity.status is false ";
         }
+        if (dto.getTypeStatus() == 0) {
+            whereClause += " ";
+        }
+        if (dto.getTypeStatus() == 1) {
+            whereClause += " AND entity.status is true ";
+        }
+        if (dto.getTypeStatus() == 2) {
+            whereClause += " AND entity.status is false ";
+        }
 
         sql +=  whereClause + orderBy;
         sqlCount += whereClause;
@@ -289,6 +298,15 @@ public class RoomServiceIm implements RoomService {
                     return false;
                 }
             }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkRomm() {
+        Long count = roomRepository.checkRoom();
+        if (count > 0) {
             return true;
         }
         return false;

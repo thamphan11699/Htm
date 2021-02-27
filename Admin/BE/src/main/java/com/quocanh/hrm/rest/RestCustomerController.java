@@ -1,6 +1,7 @@
 package com.quocanh.hrm.rest;
 
 import com.quocanh.hrm.Service.CustomerService;
+import com.quocanh.hrm.Service.RoomService;
 import com.quocanh.hrm.domain.Customer;
 import com.quocanh.hrm.dto.CustomerDto;
 import com.quocanh.hrm.dto.NewsDto;
@@ -21,6 +22,9 @@ public class RestCustomerController {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    RoomService roomService;
 
     @PostMapping(value = "/searchByPage")
     public ResponseEntity<Page<CustomerDto>> searchBypage(@RequestBody CustomerSearchDto dto) {
@@ -78,6 +82,13 @@ public class RestCustomerController {
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
         customerService.delete(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/check-room")
+    public boolean checkRoom() {
+        boolean check = true;
+        check = roomService.checkRomm();
+        return check;
     }
 
 }

@@ -39,6 +39,7 @@ function NotificationBar(props) {
       .post("http://localhost:9999/htm/api/customer/searchByPage", {
         pageIndex: 0,
         pageSize: 100,
+        customerType: 6
       })
       .then(({ data }) => {
         setNotificationsList([...data.content]);

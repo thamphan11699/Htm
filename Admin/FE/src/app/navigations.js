@@ -9,46 +9,46 @@ export const navigations = [
     name: "Customer",
     icon: "web_asset",
     children: [
-      {
-        name: "CheckIn.title",
-        path: ConstantList.ROOT_PATH + "check-in",
-        icon: "category",
-      },
+      // {
+      //   name: "CheckIn.title",
+      //   path: ConstantList.ROOT_PATH + "check-in",
+      //   icon: "category",
+      // },
       {
         name: "UserBook.title",
         path: ConstantList.ROOT_PATH + "user-booking",
         icon: "category",
       },
       {
-        name: "UserBook.wait",
+        name: "CheckIn.title",
         path: ConstantList.ROOT_PATH + "wait-check-in",
         icon: "category",
       },
-      {
-        name: "ExistingCustomers.title",
-        path: ConstantList.ROOT_PATH + "existing-customers",
-        icon: "category",
-      },
+      // {
+      //   name: "ExistingCustomers.title",
+      //   path: ConstantList.ROOT_PATH + "existing-customers",
+      //   icon: "category",
+      // },
       {
         name: "CheckOut.title",
         path: ConstantList.ROOT_PATH + "check-out",
         icon: "category",
       },
-      {
-        name: "CustomerReject.title",
-        path: ConstantList.ROOT_PATH + "customer-reject",
-        icon: "category",
-      },
+      // {
+      //   name: "CustomerReject.title",
+      //   path: ConstantList.ROOT_PATH + "customer-reject",
+      //   icon: "category",
+      // },
       {
         name: "ListCustomer.title",
         path: ConstantList.ROOT_PATH + "list-customer",
         icon: "category",
       },
-      {
-        name: "CustomerUsed.title",
-        path: ConstantList.ROOT_PATH + "customer-used",
-        icon: "category",
-      },
+      // {
+      //   name: "CustomerUsed.title",
+      //   path: ConstantList.ROOT_PATH + "customer-used",
+      //   icon: "category",
+      // },
       {
         name: "FeedBack.title",
         path: ConstantList.ROOT_PATH + "feed-back",

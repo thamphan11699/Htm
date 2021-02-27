@@ -72,7 +72,7 @@ public class CustomerServiceIm implements CustomerService {
             whereClause += " AND ( UPPER(entity.name) LIKE UPPER(:text) OR UPPER(entity.code) LIKE UPPER(:text) ) ";
         }
 
-        if (dto.getCustomerType() == 0) {
+        if (dto.getCustomerType() == 6) {
             //Customer_request
             whereClause += " AND entity.status LIKE 'CUSTOMER_REQUQEST' ";
         }

@@ -17,7 +17,7 @@ import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { Autocomplete } from "@material-ui/lab";
-import { getRoom, checkIn } from "./WaitCheckInService";
+import { getRoom, checkIn, checkIn1 } from "./WaitCheckInService";
 import { searchByPage as getType } from "../Type/TypeService";
 import {
   MuiPickersUtilsProvider,
@@ -91,10 +91,18 @@ class WaitCheckInDialog extends Component {
     let { id } = this.state;
     let { t, i18n } = this.props;
     this.setState({ disabled: true });
-    checkIn({ ...this.state }, id).then(({ data }) => {
-      toast.success(t("general.success"));
-      this.props.handleOKEditClose();
-    });
+    if ( id ) {
+      checkIn1({ ...this.state }, id).then(({ data }) => {
+        toast.success(t("general.success"));
+        this.props.handleOKEditClose();
+      });
+    } else {
+      checkIn({ ...this.state }).then(({ data }) => {
+        toast.success(t("general.success"));
+        this.props.handleOKEditClose();
+      });
+    }
+    
   };
 
   updateListType = () => {
@@ -102,6 +110,7 @@ class WaitCheckInDialog extends Component {
       pageIndex: 0,
       pageSize: 10000001,
       type: this.state.types.name,
+      typeStatus: 0,
     }).then(({ data }) => {
       this.setState({
         listRoom: [...data.content],
@@ -257,6 +266,7 @@ class WaitCheckInDialog extends Component {
                     size="small"
                     format="dd/MM/yyyy"
                     margin="normal"
+                    minDate={new Date()}
                     id="date-picker-inline"
                     label={
                       <span>
@@ -288,6 +298,7 @@ class WaitCheckInDialog extends Component {
                     size="small"
                     format="dd/MM/yyyy"
                     margin="normal"
+                    minDate={checkInDate}
                     id="date-picker-inline"
                     label={
                       <span>
@@ -401,6 +412,7 @@ class WaitCheckInDialog extends Component {
                             {t("Chọn loại phòng")}
                           </span>
                         }
+                        variant="outlined"
                         fullWidth
                         validators={["required"]}
                         errorMessages={[t("Validation.this_field_is_required")]}
@@ -447,6 +459,7 @@ class WaitCheckInDialog extends Component {
                             {t("Chọn phòng")}
                           </span>
                         }
+                        variant="outlined"s
                         fullWidth
                         validators={["required"]}
                         errorMessages={[t("Validation.this_field_is_required")]}

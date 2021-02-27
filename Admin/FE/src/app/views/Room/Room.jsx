@@ -7,6 +7,10 @@ import {
   Button,
   TextField,
   Tooltip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@material-ui/core";
 import MaterialTable, {
   MTableToolbar,
@@ -15,6 +19,8 @@ import MaterialTable, {
   MTableHeader,
 } from "material-table";
 import { deleteItem, searchByPage, getItemById } from "./RoomService";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import RoomDialog from "./RoomDialog";
 import { Breadcrumb, ConfirmationDialog } from "egret";
 import { useTranslation, withTranslation, Trans } from "react-i18next";
@@ -57,6 +63,7 @@ class Room extends Component {
     totalElements: 0,
     shouldOpenConfirmationDeleteAllDialog: false,
     keyword: "",
+    typeStatus: 0,
   };
   numSelected = 0;
   rowCount = 0;
@@ -107,6 +114,7 @@ class Room extends Component {
     searchObject.keyword = this.state.keyword;
     searchObject.pageIndex = this.state.page + 1;
     searchObject.pageSize = this.state.rowsPerPage;
+    searchObject.typeStatus = this.state.typeStatus;
     searchByPage(searchObject).then(({ data }) => {
       this.setState({
         itemList: [...data.content],
@@ -255,6 +263,17 @@ class Room extends Component {
       this.handleDialogClose();
     }
   };
+  selectStatus = (event, selected) => {
+    event.persist();
+    this.setState(
+      {
+        typeStatus: event.target.value,
+      },
+      () => {
+        this.updatePageData();
+      }
+    );
+  };
 
   render() {
     const { t, i18n } = this.props;
@@ -318,6 +337,11 @@ class Room extends Component {
       },
     ];
 
+    const listStatus = [
+      { id: 0, name: "Tất cả" },
+      { id: 1, name: "Đang sử dụng" },
+      { id: 2, name: "Đang trống" },
+    ];
     return (
       <div className="m-sm-30">
         <Helmet>
@@ -329,29 +353,77 @@ class Room extends Component {
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Button
-              className="mb-16 mr-16 align-bottom"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                this.handleEditItem({
-                  startDate: new Date(),
-                  endDate: new Date(),
-                });
-              }}
-            >
-              {t("general.add")}
-            </Button>
-            <Button
-              className="mb-16 mr-36 align-bottom"
-              variant="contained"
-              color="primary"
-              onClick={() =>
-                this.setState({ shouldOpenConfirmationDeleteAllDialog: true })
-              }
-            >
-              {t("general.delete")}
-            </Button>
+            <Grid container spacing={3}>
+              <Grid item lg={4} md={4} sm={12} xs={12} style={{marginTop: 10}}>
+                <Button
+                  className="mr-16 align-bottom"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    this.handleEditItem({
+                      startDate: new Date(),
+                      endDate: new Date(),
+                    });
+                  }}
+                >
+                  {t("general.add")}
+                </Button>
+                <Button
+                  className="mr-36 align-bottom"
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    this.setState({
+                      shouldOpenConfirmationDeleteAllDialog: true,
+                    })
+                  }
+                >
+                  {t("general.delete")}
+                </Button>
+              </Grid>
+              <Grid item lg={4} md={4} sm={12} xs={12} style={{marginTop: 10}}>
+                <FormControl fullWidth={true} variant="outlined" size="small">
+                  <InputLabel htmlFor="status">{t("Trạng thái")}</InputLabel>
+                  <Select
+                    value={this.state?.typeStatus ? this.state.typeStatus : ""}
+                    label={t("Trạng thái")}
+                    onChange={this.selectStatus}
+                    inputProps={{
+                      name: "status",
+                      id: "status",
+                    }}
+                  >
+                    {listStatus.map((item) => {
+                      return (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item lg={4} md={4} sm={12} xs={12}>
+                <TextField
+                  label={t("Tìm kiếm")}
+                  className="mb-16 mr-10"
+                  style={{ width: 350 }}
+                  type="text"
+                  name="keyword"
+                  value={keyword}
+                  onKeyDown={this.handleKeyDownEnterSearch}
+                  onChange={this.handleTextChange}
+                />
+                <Button
+                  className="mb-16 mr-16 align-bottom"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => this.search(keyword)}
+                >
+                  <Icon fontSize="default">search</Icon>
+                </Button>
+              </Grid>
+            </Grid>
 
             {shouldOpenConfirmationDeleteAllDialog && (
               <ConfirmationDialog
@@ -364,24 +436,6 @@ class Room extends Component {
                 cancel={t("general.cancel")}
               />
             )}
-            <TextField
-              label={t("Tìm kiếm")}
-              className="mb-16 mr-10"
-              style={{ width: 350 }}
-              type="text"
-              name="keyword"
-              value={keyword}
-              onKeyDown={this.handleKeyDownEnterSearch}
-              onChange={this.handleTextChange}
-            />
-            <Button
-              className="mb-16 mr-16 align-bottom"
-              variant="contained"
-              color="primary"
-              onClick={() => this.search(keyword)}
-            >
-              <Icon fontSize="default">search</Icon>
-            </Button>
           </Grid>
           <Grid item xs={12}>
             <div>
@@ -438,8 +492,8 @@ class Room extends Component {
                   backgroundColor:
                     rowData.tableData.id % 2 === 0 ? "#ffffff" : "#eeeeee",
                 }),
-                maxBodyHeight: '450px',
-                minBodyHeight: '370px',
+                maxBodyHeight: "450px",
+                minBodyHeight: "370px",
                 selection: true,
                 actionsColumnIndex: -1,
                 paging: false,

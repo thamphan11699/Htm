@@ -16,10 +16,14 @@ export const deleteItem = (id) => {
   return axios.delete(url);
 };
 
-export const checkIn = (dto ,id) => {
+export const checkIn1 = (dto ,id) => {
     var url = API_PATH + "/check-in/" + id;
   return axios.put(url, dto);
 }
+export const checkIn = (dto) => {
+  var url = API_PATH + "/check-in";
+  return axios.post(url, dto);
+};
 export const reject = (dto, id) => {
     var url = API_PATH + "/reject/" + id;
   return axios.put(url, dto);

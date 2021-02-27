@@ -16,7 +16,7 @@ import Draggable from "react-draggable";
 import Paper from "@material-ui/core/Paper";
 import "./BookingDialog.css"
 import ClearIcon from '@material-ui/icons/Clear';
-import { booking } from "./BookingService";
+import { booking, checkRoom } from "./BookingService";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 toast.configure();
@@ -73,9 +73,15 @@ class BookingDialog  extends Component {
   };
 
   handleFormSubmit = () => {
-    booking(this.state).then(({data}) => {
-      toast.success("Đã đặt phòng thành công, Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất");
-      this.props.handleOKEditClose();
+    checkRoom().then(({data}) => {
+      if (data) {
+        booking(this.state).then(({data}) => {
+          toast.success("Đã đặt phòng thành công");
+          this.props.handleOKEditClose();
+        })
+      } else {
+        toast.error("Đã hêt phòng");
+      }
     })
     
   }

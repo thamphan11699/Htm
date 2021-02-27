@@ -58,6 +58,7 @@ class UserBook extends Component {
     totalElements: 0,
     shouldOpenConfirmationDeleteAllDialog: false,
     keyword: "",
+    typeStatus: 6
   };
   numSelected = 0;
   rowCount = 0;
@@ -94,7 +95,7 @@ class UserBook extends Component {
       searchObject.keyword = this.state.keyword;
       searchObject.pageIndex = this.state.page + 1;
       searchObject.pageSize = this.state.rowsPerPage;
-      searchObject.customerType = 0;
+      searchObject.customerType = 6;
       searchByPage(searchObject).then(({ data }) => {
         this.setState({
           itemList: [...data.content],
@@ -109,7 +110,7 @@ class UserBook extends Component {
     searchObject.keyword = this.state.keyword;
     searchObject.pageIndex = this.state.page + 1;
     searchObject.pageSize = this.state.rowsPerPage;
-    searchObject.customerType = 0;
+    searchObject.customerType = 6;
     searchByPage(searchObject).then(({ data }) => {
       this.setState({
         itemList: [...data.content],
@@ -327,14 +328,14 @@ class UserBook extends Component {
               if (method === 0) {
                 getItemById(rowData.id).then(({ data }) => {
                     accept(data, rowData.id).then(({ res }) => {
-                        toast.success("Accept success");
+                        toast.success("Đã chấp nhận yêu cầu");
                         this.updatePageData();
                       });
                 });
               } else if (method === 1) {
                 getItemById(rowData.id).then(({ data }) => {
                     reject(data, rowData.id).then(({ res }) => {
-                        toast.warn("Reject success");
+                        toast.warn("Đã từ chối yêu cầu");
                         this.updatePageData();
                       });
                 });

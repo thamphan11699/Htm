@@ -13,4 +13,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query("select c FROM Room c where c.name = ?1 " )
     List<Room> findByName(String name);
+
+    @Query("select count(c.id) FROM Room c where c.status = 0")
+    Long checkRoom();
 }

@@ -358,7 +358,7 @@ class WaitCheckIn extends Component {
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            {/* <Button
+            <Button
               className="mb-16 mr-16 align-bottom"
               variant="contained"
               color="primary"
@@ -369,8 +369,8 @@ class WaitCheckIn extends Component {
                 });
               }}
             >
-              {t("general.add")}
-            </Button> */}
+              Check in
+            </Button>
             {/* <Button
               className="mb-16 mr-36 align-bottom"
               variant="contained"
