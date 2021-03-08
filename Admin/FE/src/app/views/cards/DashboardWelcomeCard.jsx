@@ -13,7 +13,7 @@ const styles = theme => ({
 
 
 
-const DashboardWelcomeCard = ({ classes, t, analytics }) => {
+const DashboardWelcomeCard = ({ classes, t, analytics, totalRoom }) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'VND',
@@ -30,7 +30,7 @@ const DashboardWelcomeCard = ({ classes, t, analytics }) => {
           <a href={ConstantList.ROOT_PATH + "asset/list_asset"} >
             <div className="font-weight-300 flex flex-space-between">
               <div className="text-white margin-auto">
-                <div className="font-size-32"><b>{analytics.countCustom}</b></div>
+                <div className="font-size-32"><b>{analytics.totalCustomer}</b></div>
                 <p className="uppercase bold m-0"><b>{t('Tổng số khách hàng')}</b></p>
               </div>
             </div>
@@ -45,7 +45,7 @@ const DashboardWelcomeCard = ({ classes, t, analytics }) => {
           <a href={ConstantList.ROOT_PATH + "asset/allocation_asset"} >
           <div className="font-weight-300 flex flex-space-between">
             <div className="text-white margin-auto">
-              <div className="font-size-32"><b>{formatter.format(analytics.totalMoney)}</b></div>
+              <div className="font-size-32"><b>{formatter.format(analytics.revenue)}</b></div>
               <p className="uppercase m-0"><b>{t('Doanh thu')}</b></p>
             </div>
           </div>
@@ -60,8 +60,8 @@ const DashboardWelcomeCard = ({ classes, t, analytics }) => {
           <a href={ConstantList.ROOT_PATH + "asset/transfer_asset"} >
           <div className="font-weight-300  flex flex-space-between">
             <div className="text-white margin-auto">
-              <div className="font-size-32"><b>{analytics.customerNow}</b></div>
-              <p className="uppercase m-0"><b>{t('Khách hàng hiện tại')}</b></p>
+              <div className="font-size-32"><b>{totalRoom}</b></div>
+              <p className="uppercase m-0"><b>{t('Tổng số phòng')}</b></p>
             </div>
           </div>
           </a>
@@ -75,8 +75,8 @@ const DashboardWelcomeCard = ({ classes, t, analytics }) => {
           <a href={ConstantList.ROOT_PATH + "asset/maintain_request"} >
           <div className="font-weight-300 flex flex-space-between">
             <div className="text-white margin-auto">
-              <div className="font-size-32"><b>Coming soon</b></div>
-              <p className="uppercase m-0"><b>{t('Số phòng còn trống')}</b></p>
+              <div className="font-size-32"><b>{analytics.roomNotUsed}</b></div>
+              <p className="uppercase m-0"><b>{t('Phòng còn trống')}</b></p>
             </div>
           </div>
           </a>

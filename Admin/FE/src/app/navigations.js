@@ -17,12 +17,12 @@ export const navigations = [
       {
         name: "UserBook.title",
         path: ConstantList.ROOT_PATH + "user-booking",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       {
         name: "CheckIn.title",
         path: ConstantList.ROOT_PATH + "wait-check-in",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       // {
       //   name: "ExistingCustomers.title",
@@ -32,7 +32,7 @@ export const navigations = [
       {
         name: "CheckOut.title",
         path: ConstantList.ROOT_PATH + "check-out",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       // {
       //   name: "CustomerReject.title",
@@ -42,7 +42,7 @@ export const navigations = [
       {
         name: "ListCustomer.title",
         path: ConstantList.ROOT_PATH + "list-customer",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       // {
       //   name: "CustomerUsed.title",
@@ -52,7 +52,7 @@ export const navigations = [
       {
         name: "FeedBack.title",
         path: ConstantList.ROOT_PATH + "feed-back",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
     ]
   }, 
@@ -60,45 +60,45 @@ export const navigations = [
     name: "Dashboard.title",
     icon: "web_asset",
     children: [
-      {
-        name: "News.title",
-        path: ConstantList.ROOT_PATH + "news",
-        icon: "category",
-      },
+      // {
+      //   name: "News.title",
+      //   path: ConstantList.ROOT_PATH + "news",
+      //   icon: "keyboard_arrow_right",
+      // },
       {
         name: "Price.title",
         path: ConstantList.ROOT_PATH + "price",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       {
         name: "Type.title",
         path: ConstantList.ROOT_PATH + "type",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       {
         name: "Ameniti.title",
         path: ConstantList.ROOT_PATH + "ameniti",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       {
         name: "Room.title",
         path: ConstantList.ROOT_PATH + "room",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
       {
         name: "Promotion.title",
         path: ConstantList.ROOT_PATH + "promotion",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
-      {
-        name: "Advertisement.title",
-        path: ConstantList.ROOT_PATH + "advertisement",
-        icon: "category",
-      },
+      // {
+      //   name: "Advertisement.title",
+      //   path: ConstantList.ROOT_PATH + "advertisement",
+      //   icon: "keyboard_arrow_right",
+      // },
       {
         name: "Shift.title",
         path: ConstantList.ROOT_PATH + "shift",
-        icon: "category",
+        icon: "keyboard_arrow_right",
       },
     ],
   },

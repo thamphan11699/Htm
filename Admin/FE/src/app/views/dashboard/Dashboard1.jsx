@@ -152,7 +152,7 @@ class Analytics extends Component {
         </div>
         <Grid container spacing={3}>
           <Grid item lg={6} md={6} sm={12} xs={12}>
-            <DashboardWelcomeCard />
+            {/* <DashboardWelcomeCard /> */}
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
             <Card elevation={3} className="h-100">

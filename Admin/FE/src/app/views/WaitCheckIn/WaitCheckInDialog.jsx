@@ -21,7 +21,7 @@ import { getRoom, checkIn, checkIn1 } from "./WaitCheckInService";
 import { searchByPage as getType } from "../Type/TypeService";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
+  DateTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";

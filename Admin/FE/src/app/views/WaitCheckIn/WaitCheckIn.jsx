@@ -20,6 +20,9 @@ import { Breadcrumb, ConfirmationDialog } from "egret";
 import { useTranslation, withTranslation, Trans } from "react-i18next";
 import { saveAs } from "file-saver";
 import { Helmet } from "react-helmet";
+import localStorageService from "../../services/localStorageService";
+import history from "history.js";
+import ConstantList from "../../appConfig";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
@@ -180,6 +183,13 @@ class WaitCheckIn extends Component {
   componentDidMount() {
     this.updatePageData();
   }
+  componentWillMount () {
+    let user = localStorageService.getItem("auth_user");
+    console.log(user);
+    if (user == null) {
+      history.push(ConstantList.LOGIN_PAGE);
+    }
+  }
 
   handleEditItem = (item) => {
     this.setState({
@@ -272,7 +282,7 @@ class WaitCheckIn extends Component {
       shouldOpenEditorDialog,
       shouldOpenConfirmationDeleteAllDialog,
     } = this.state;
-    let TitlePage = t("WaitCheckIn.title");
+    let TitlePage = t("CheckIn.title");
     let columns = [
       //   { title: t("code"), field: "code", align: "left", width: "150" },
       { title: t("name"), field: "name", align: "left", width: "150" },
@@ -334,7 +344,7 @@ class WaitCheckIn extends Component {
               } else if (method === 1) {
                 getItemById(rowData.id).then(({ data }) => {
                     reject(data, rowData.id).then(({ res }) => {
-                        toast.warn("Reject success");
+                        toast.warn("Đã từ chối");
                         this.updatePageData();
                       });
                 });
@@ -353,7 +363,7 @@ class WaitCheckIn extends Component {
           <title>HTM | {TitlePage}</title>
         </Helmet>
         <div className="mb-sm-30">
-          <Breadcrumb routeSegments={[{ name: t("WaitCheckIn.title") }]} />
+          <Breadcrumb routeSegments={[{ name: t("CheckIn.title") }]} />
         </div>
 
         <Grid container spacing={3}>

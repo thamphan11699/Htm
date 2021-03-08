@@ -103,17 +103,28 @@ class CheckOutDialog extends Component {
     });
   }
   componentDidMount() {
-    let { room } = this.state;
+    let { room, checkInDate, checkOutDate } = this.state;
+    let cinDate = new Date(checkInDate);
+    let coutDate = new Date();
+    let totalTime = cinDate.getTime() - coutDate.getTime();
+    let totalHouser = new Date(totalTime).getHours();
+    if (new Date(totalTime).getMinutes() > 30) {
+      totalHouser += 1;
+    }
+    this.setState({
+      totalHouser: totalHouser,
+    })
     if (room.promotions) {
       this.setState({
-        totalMoney: room.prices[0].value - (room.promotions[0].value * 70) / 100,
-      })
+        totalMoney:
+          (room.prices[0].value * totalHouser) -
+          ((room.prices[0].value * totalHouser) * room.promotions[0].value) / 100,
+      });
     } else {
       this.setState({
-        totalMoney: room.prices[0].value 
-      })
+        totalMoney: (room.prices[0].value * totalHouser),
+      });
     }
-    ;
   }
   selectType = (roleSelected) => {
     this.setState({ types: roleSelected }, function () {});
@@ -146,6 +157,11 @@ class CheckOutDialog extends Component {
       identityCard,
       totalMoney,
     } = this.state;
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "VND",
+      minimumFractionDigits: 2,
+    });
     let { open, handleClose, handleOKEditClose, t, i18n } = this.props;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -329,8 +345,8 @@ class CheckOutDialog extends Component {
                   variant="outlined"
                   name="promotionCode"
                   value={promotionCode}
-                  validators={["required"]}
-                  errorMessages={["this field is required"]}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
                 />
               </Grid>
               <Grid item md={6} sm={6} xs={12}>
@@ -346,8 +362,8 @@ class CheckOutDialog extends Component {
                   variant="outlined"
                   name="description"
                   value={description}
-                  validators={["required"]}
-                  errorMessages={["this field is required"]}
+                  // validators={["required"]}
+                  // errorMessages={["this field is required"]}
                 />
               </Grid>
               {listRoom && (
@@ -383,6 +399,7 @@ class CheckOutDialog extends Component {
                       <TextValidator
                         {...params}
                         value={room}
+                        variant="outlined"
                         label={
                           <span>
                             <span style={{ color: "red" }}>*</span>
@@ -417,7 +434,7 @@ class CheckOutDialog extends Component {
             style={{ padding: "0 30px" }}
           >
             <h3>Tổng tiền</h3>
-            <h3 color="primary">{room.prices[0].value}</h3>
+            <h3 color="primary">{formatter.format(room.prices[0].value * this.state.totalHouser)}</h3>
           </Grid>
           {room.promotions && (
             <Grid
@@ -444,7 +461,7 @@ class CheckOutDialog extends Component {
             style={{ padding: "0 30px" }}
           >
             <h3>Thành tiền</h3>
-            <h3 color="primary">{totalMoney}</h3>
+            <h3 color="primary">{formatter.format(totalMoney)}</h3>
           </Grid>
           <DialogActions>
             <div className="flex flex-space-between flex-middle mt-36">

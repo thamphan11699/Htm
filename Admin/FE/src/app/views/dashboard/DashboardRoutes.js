@@ -27,10 +27,10 @@ const dashboardRoutes = [
     component: Sales,
     auth: authRoles.admin
   },
-  // {
-  //   path:  ConstantList.ROOT_PATH+"dashboard/dashboard1",
-  //   component: Dashboard1
-  // },
+  {
+    path:  ConstantList.ROOT_PATH+"dashboard/dashboard1",
+    component: Dashboard1
+  },
   {
     path: ConstantList.ROOT_PATH + "dashboard/learning-management",
     component: LearningManagement,

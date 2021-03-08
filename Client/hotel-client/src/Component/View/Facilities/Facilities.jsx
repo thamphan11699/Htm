@@ -9,7 +9,7 @@ class Facilities extends Component {
     return (
       <div>
         <Banner />
-        <NewIntro />
+        <NewIntro title="Cơ sở vật chất" />
         <div className="extra-info">
           <div className="extra-info-container">
             <p className="extra-info-content">

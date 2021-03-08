@@ -5,6 +5,6 @@ export const getDashboardAnalytics = () => {
   return axios.get(ConstantList.API_ENPOINT + "/api/dashboard/analytics");
 };
 
-export const getAnalytics = () => {
-  return axios.get(ConstantList.API_ENPOINT + "/api/customer");
+export const getAnalytics = (analytics) => {
+  return axios.post(ConstantList.API_ENPOINT + "/api/analytics", analytics);
 }

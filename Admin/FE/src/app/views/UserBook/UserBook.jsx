@@ -19,6 +19,9 @@ import { accept, searchByPage, reject, getItemById } from "./UserBookService";
 import { Breadcrumb, ConfirmationDialog } from "egret";
 import { useTranslation, withTranslation, Trans } from "react-i18next";
 import { saveAs } from "file-saver";
+import localStorageService from "../../services/localStorageService";
+import history from "history.js";
+import ConstantList from "../../appConfig";
 import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -130,6 +133,14 @@ class UserBook extends Component {
       shouldOpenConfirmationDeleteAllDialog: false,
     });
   };
+
+  componentWillMount () {
+    let user = localStorageService.getItem("auth_user");
+    // console.log(user);
+    if (user == null) {
+      history.push(ConstantList.LOGIN_PAGE);
+    }
+  }
 
   handleOKEditClose = () => {
     this.setState({
