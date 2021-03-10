@@ -27,6 +27,7 @@
 .none_wrap{
     white-space: nowrap !important;
 }
-.MuiInputBase-root.Mui-disabled {
-    color: #ccc;
-  }
+.MuiInputBase-input.Mui-disabled {
+    // opacity: 1;
+    color: black;
+}

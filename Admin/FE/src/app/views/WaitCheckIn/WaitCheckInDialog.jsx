@@ -111,6 +111,8 @@ class WaitCheckInDialog extends Component {
       pageSize: 10000001,
       type: this.state.types.name,
       typeStatus: 0,
+      adults: this.state.adults,
+      children: this.state.children, 
     }).then(({ data }) => {
       this.setState({
         listRoom: [...data.content],

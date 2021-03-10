@@ -17,10 +17,12 @@ import { EgretMenu, EgretSearchBox } from "egret";
 import { isMdScreen } from "utils";
 import NotificationBar from "../SharedCompoents/NotificationBar";
 import { Link } from "react-router-dom";
-import ShoppingCart from "../SharedCompoents/ShoppingCart";
+// import ShoppingCart from "../SharedCompoents/ShoppingCart";
 import { useTranslation, withTranslation, Trans } from "react-i18next";
-import Select from "@material-ui/core/Select";
+// import Select from "@material-ui/core/Select";
 import LanguageSelect from "../SharedCompoents/LanguageSelect";
+import localStorageService from "../../services/localStorageService";
+import {getEmployeeByUserId } from "../../views/Employee/EmployeeService";
 const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.primary.main,
@@ -29,7 +31,9 @@ const styles = (theme) => ({
 const ViewLanguageSelect = withTranslation()(LanguageSelect);
 
 class Layout1Topbar extends Component {
-  state = {};
+  state = {
+    employee: {}
+  };
 
   updateSidebarMode = (sidebarSettings) => {
     let { settings, setLayoutSettings } = this.props;
@@ -63,6 +67,15 @@ class Layout1Topbar extends Component {
     this.props.logoutUser();
   };
 
+  componentWillMount() {
+    let user = localStorageService.getItem("auth_user");
+    getEmployeeByUserId(user.id).then(({data}) => {
+      this.setState({employee: data});
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
   render() {
     const { t, i18n } = this.props;
     let { theme, settings } = this.props;
@@ -72,7 +85,7 @@ class Layout1Topbar extends Component {
       i18n.changeLanguage(lng);
       //alert('here');
     };
-
+    let {employee} = this.state;
     const topbarTheme =
       settings.themes[settings.layout1Settings.topbar.theme] || theme;
     return (
@@ -119,7 +132,7 @@ class Layout1Topbar extends Component {
                   menuButton={
                     <img
                       className="mx-8 text-middle circular-image-small cursor-pointer"
-                      src={ConstantList.ROOT_PATH + "assets/images/face-7.jpg"}
+                      src={employee.mainImageUrl}
                       alt="user"
                     />
                   }

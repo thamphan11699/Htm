@@ -104,25 +104,32 @@ class CheckOutDialog extends Component {
   }
   componentDidMount() {
     let { room, checkInDate, checkOutDate } = this.state;
-    let cinDate = new Date(checkInDate);
-    let coutDate = new Date();
-    let totalTime = cinDate.getTime() - coutDate.getTime();
-    let totalHouser = new Date(totalTime).getHours();
-    if (new Date(totalTime).getMinutes() > 30) {
-      totalHouser += 1;
+    let cinDate = Date.parse(checkInDate);
+    let coutDate = new Date(checkOutDate).getTime();
+    let totalTime = coutDate - cinDate;
+    var seconds = totalTime / 1000;
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+    hours -= days * 24;
+    // console.log(days, hours);
+    // let totalHouser = new Date(totalTime).getHours();
+    if (new Date().getHours() >= 12) {
+      days += 1;
+      console.log(days);
     }
     this.setState({
-      totalHouser: totalHouser,
+      totalHouser: days,
     })
     if (room.promotions) {
       this.setState({
         totalMoney:
-          (room.prices[0].value * totalHouser) -
-          ((room.prices[0].value * totalHouser) * room.promotions[0].value) / 100,
+          (room.prices[0].value * days) -
+          ((room.prices[0].value * days) * room.promotions[0].value) / 100,
       });
     } else {
       this.setState({
-        totalMoney: (room.prices[0].value * totalHouser),
+        totalMoney: (room.prices[0].value * days),
       });
     }
   }
@@ -157,12 +164,13 @@ class CheckOutDialog extends Component {
       identityCard,
       totalMoney,
     } = this.state;
+    // console.log(checkInDate);
     const formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "VND",
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
     });
-    let { open, handleClose, handleOKEditClose, t, i18n } = this.props;
+    let { open, t,  } = this.props;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     return (
@@ -334,7 +342,7 @@ class CheckOutDialog extends Component {
                   errorMessages={["this field is required"]}
                 />
               </Grid>
-              <Grid item md={6} sm={6} xs={12}>
+              {/* <Grid item md={6} sm={6} xs={12}>
                 <TextValidator
                   className="w-100"
                   label={t("promotionCode")}
@@ -365,7 +373,7 @@ class CheckOutDialog extends Component {
                   // validators={["required"]}
                   // errorMessages={["this field is required"]}
                 />
-              </Grid>
+              </Grid> */}
               {listRoom && (
                 <Grid item lg={12} md={12} sm={12} xs={12}>
                   <Autocomplete

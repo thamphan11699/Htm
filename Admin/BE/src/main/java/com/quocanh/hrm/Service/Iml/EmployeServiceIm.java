@@ -19,6 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -49,6 +51,9 @@ public class EmployeServiceIm implements EmployeeService {
 
     @Autowired
     ShiftRepository shiftRepository;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
     @Override
     public void delete(Long id) {
@@ -123,6 +128,17 @@ public class EmployeServiceIm implements EmployeeService {
                         employeeShiftRepository.save(employeeShift);
                     }
                 }
+                SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+                simpleMailMessage.setFrom("tranquocanh11061999@gmail.com");
+                simpleMailMessage.setTo(dto.getEmail());
+                String mailSubject = "Chào mừng bạn đến với khách sạn Hà Nội";
+                String mailContent = "Xin chào " + " " + dto.getFullName() + "\n";
+                mailContent += "Bạn vừa trở thành nhân viên của khách sạn và dưới đây là tài khoản, mật khẩu của bạn" + "\n";
+                mailContent += "Tài khoản: " + dto.getUser().getUsername() + "\n";
+                mailContent += "Mật khẩu: " + dto.getUser().getPassword();
+                simpleMailMessage.setSubject(mailSubject);
+                simpleMailMessage.setText(mailContent);
+                javaMailSender.send(simpleMailMessage);
                 return new EmployeeDto(entity);
             }
         }
@@ -196,5 +212,16 @@ public class EmployeServiceIm implements EmployeeService {
         entity.setImagePath(imagePath);
         entity = employeeRepository.save(entity);
         return new EmployeeDto(entity);
+    }
+
+    @Override
+    public EmployeeDto getByUserId(Long id) {
+        if (id != null) {
+            Employee employee = employeeRepository.findEmployeeByUserId(id);
+            if (employee != null) {
+                return new EmployeeDto(employee);
+            }
+        }
+        return null;
     }
 }

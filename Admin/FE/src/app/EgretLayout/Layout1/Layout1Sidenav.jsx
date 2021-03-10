@@ -22,6 +22,8 @@ import Sidenav from "../SharedCompoents/Sidenav";
 import Brand from "../SharedCompoents/Brand";
 import SidenavTheme from "../EgretTheme/SidenavTheme";
 import { isMdScreen } from "utils";
+import localStorageService from "../../services/localStorageService";
+import {getEmployeeByUserId } from "../../views/Employee/EmployeeService";
 
 const styles = theme => ({});
 
@@ -42,7 +44,8 @@ const IconSmall = withStyles(() => ({
 class Layout1Sidenav extends Component {
   state = {
     sidenavToggleChecked: false,
-    hidden: true
+    hidden: true,
+    employee: {}
   };
 
   componentWillMount() {
@@ -52,7 +55,13 @@ class Layout1Sidenav extends Component {
         this.updateSidebarMode({ mode: "close" });
       }
     });
-
+    let user = localStorageService.getItem("auth_user");
+    getEmployeeByUserId(user.id).then(({data}) => {
+      this.setState({employee: data});
+    }).catch(error => {
+      console.error(error);
+    });
+    
     setTimeout(() => {
       this.setState({ hidden: false });
     }, 400);
@@ -102,14 +111,15 @@ class Layout1Sidenav extends Component {
   );
 
   renderUser = () => {
-    let { user } = this.props;
+    let { employee } = this.state;
+    console.log(employee);
     return (
       <div className="sidenav__user">
         <div className="username-photo">
-          <img src={user.photoURL} alt="user" />
+          <img src={employee?.mainImageUrl ? employee?.mainImageUrl: ""} alt="user" />
           <span className="username">
             {/* <Icon>lock</Icon>  */}
-            {user.displayName}
+            {employee?.fullName ? employee.fullName : "admin"}
           </span>
         </div>
         <div className="user__menu">

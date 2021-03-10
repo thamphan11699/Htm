@@ -40,3 +40,8 @@ export const checkEmail= (employee) => {
     var url = ConstantList.API_ENPOINT + "/public/check-email";
     return axios.post(url, employee);
 }
+
+export const getEmployeeByUserId = (userId) => {
+  var url = API_PATH + "/get-employee-user-id/" + userId;
+  return axios.get(url);
+}

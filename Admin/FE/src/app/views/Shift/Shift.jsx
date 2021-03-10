@@ -97,7 +97,7 @@ class Shift extends Component {
 
   componentWillMount () {
     let user = localStorageService.getItem("auth_user");
-    console.log(user);
+    // console.log(user);
     if (user == null) {
       history.push(ConstantList.LOGIN_PAGE);
     } else {

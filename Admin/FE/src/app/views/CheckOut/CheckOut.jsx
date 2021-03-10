@@ -277,7 +277,7 @@ class CheckOut extends Component {
         align: "left",
         width: "150",
         render: (rowData) =>
-          rowData.createDate ? (
+          rowData.checkInDate ? (
             <span>{moment(rowData.checkInDate).format("YYYY-MM-DD")}</span>
           ) : (
             ""
@@ -289,8 +289,11 @@ class CheckOut extends Component {
         align: "left",
         width: "150",
         render: (rowData) =>
-          rowData.createDate ? (
-            <span>{moment(rowData.checkOutDate).format("YYYY-MM-DD")}</span>
+          rowData.checkOutDate ? (
+            <span style={
+              new Date(rowData.checkOutDate).getDate() == new Date().getDate() && new Date(rowData.checkOutDate).getMonth() == new Date().getMonth() && new Date(rowData.checkOutDate).getFullYear() == new Date().getFullYear()
+              ? {color: "red"} : {color: "green"}
+            }>{moment(rowData.checkOutDate).format("YYYY-MM-DD")}</span>
           ) : (
             ""
           ),

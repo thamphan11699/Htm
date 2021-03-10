@@ -266,25 +266,25 @@
     "no_file_selected": "Chưa chọn file nào"
   },
   "News": {
-    "title": "Quản lí tin tức"
+    "title": "Quản lý tin tức"
   },
   "Price": {
-    "title":"Quản lí giá"
+    "title":"Quản lý giá"
   },
   "Type" : {
-    "title":"Quản lí loại phòng"
+    "title":"Quản lý loại phòng"
   },
   "Promotion" : {
-    "title":"Quản lí khuyến mãi"
+    "title":"Quản lý khuyến mãi"
   },
   "Advertisement" : {
-    "title": "Quản lí quảng cáo"
+    "title": "Quản lý quảng cáo"
   },
   "Shift" : {
-    "title": "Quản lí ca làm việc"
+    "title": "Quản lý ca làm việc"
   },
   "Room" : {
-    "title" : "Quản lí phòng"
+    "title" : "Quản lý phòng"
   },
   "UserBook" : {
     "title": "Yêu cầu đặt phòng",
@@ -309,7 +309,7 @@
     "title": "Khách hàng đã check out"
   },
   "Ameniti": {
-    "title" : "Quản lí tiện ích"
+    "title" : "Quản lý tiện ích"
   },
   "WaitCheckIn": {
     "title" : "Khách hàng chờ check in"

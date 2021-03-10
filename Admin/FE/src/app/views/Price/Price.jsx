@@ -77,7 +77,7 @@ class Price extends Component {
 
   componentWillMount () {
     let user = localStorageService.getItem("auth_user");
-    console.log(user);
+    // console.log(user);
     if (user == null) {
       history.push(ConstantList.LOGIN_PAGE);
     } else {
@@ -281,6 +281,11 @@ class Price extends Component {
   }
 
   render() {
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "VND",
+      minimumFractionDigits: 0,
+    });
     const { t, i18n } = this.props
     let {
       keyword,
@@ -304,7 +309,11 @@ class Price extends Component {
       // },
       { title: t('code'), field: 'code', align: 'left', width: '150' },
       { title: t('name'), field: 'name', align: 'left', width: '150' },
-      { title: t('value'), field: 'value', align: 'left', width: '150' },
+      { title: t('value'), field: 'value', align: 'left', width: '150',
+        render: (rowData) => (
+          <p>{formatter.format(rowData.value)}</p>
+        )  
+      },
       {
         title: t('general.action'),
         field: 'custom',

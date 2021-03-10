@@ -10,5 +10,5 @@ public interface EmployeeService {
     EmployeeDto getOne(Long id);
     Page<EmployeeDto> searchByPage(SearchDto dto);
     EmployeeDto updateImgae(String imagePath, Long id);
-
+    EmployeeDto getByUserId(Long id);
 }

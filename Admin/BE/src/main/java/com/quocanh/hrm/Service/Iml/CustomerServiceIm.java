@@ -13,15 +13,19 @@ import com.quocanh.hrm.repository.RoomRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +46,11 @@ public class CustomerServiceIm implements CustomerService {
 
     @Autowired
     RoomRepository roomRepository;
+
+    @Autowired
+    JavaMailSender javaMailSender;
+
+
 
     @Override
     public Page<CustomerDto> searchByPage(CustomerSearchDto dto) {
@@ -163,6 +172,25 @@ public class CustomerServiceIm implements CustomerService {
             entity.setRoom(null);
             entity = customerRepository.save(entity);
             if (entity != null) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMMM/yyyy");
+                SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+                simpleMailMessage.setFrom("tranquocanh11061999@gmail.com");
+                simpleMailMessage.setTo(dto.getEmail());
+                String mailSubject = "Chào mừng bạn đến với khách sạn Hà Nội";
+                String mailContent = "Xin chào " + " " + dto.getName() + "\n";
+                mailContent += "Chúng tôi vừa nhận được yêu cầu đặt phòng từ bạn " + "\n";
+                mailContent += "Hãy chắc chắn những thông tin sau đây đều chính xác" + "\n";
+                mailContent += "Họ và tên: " + dto.getName() + "\n";
+                mailContent += "Số CMND/CCCD: " + dto.getIdentityCard() + "\n";
+                mailContent += "Email: " + dto.getEmail() + "\n";
+                mailContent += "Số người lớn: " + dto.getAdults() + "\n";
+                mailContent += "Số trẻ em: " + dto.getChildren() + "\n";
+                mailContent += "Ngày check in: " + simpleDateFormat.format(dto.getCheckInDate()) + "\n";
+                mailContent += "Ngày check out: " + simpleDateFormat.format(dto.getCheckOutDate()) + "\n";
+                mailContent += "Vui lòng có mặt trước 12h ngày " + simpleDateFormat.format(dto.getCheckInDate()) + "để làm thủ tục nhận phòng";
+                simpleMailMessage.setSubject(mailSubject);
+                simpleMailMessage.setText(mailContent);
+                javaMailSender.send(simpleMailMessage);
                 return new CustomerDto(entity);
             }
         }

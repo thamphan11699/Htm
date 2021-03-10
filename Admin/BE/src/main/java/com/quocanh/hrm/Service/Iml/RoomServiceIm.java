@@ -98,6 +98,12 @@ public class RoomServiceIm implements RoomService {
         if (dto.getTypeStatus() == 2) {
             whereClause += " AND entity.status is false ";
         }
+        if (dto.getAdults() != null) {
+            whereClause += " AND ( T.adults >= :adults ) ";
+        }
+        if (dto.getChildren() != null) {
+            whereClause += " AND ( T.children >= :children ) ";
+        }
 
         sql +=  whereClause + orderBy;
         sqlCount += whereClause;
@@ -112,6 +118,15 @@ public class RoomServiceIm implements RoomService {
         if (dto.getType() != null && StringUtils.hasText(dto.getType())) {
             q.setParameter("type", '%' + dto.getType() + '%');
             qCount.setParameter("type", '%' + dto.getType() + '%');
+        }
+
+        if (dto.getAdults() != null) {
+            q.setParameter("adults", dto.getAdults());
+            qCount.setParameter("adults", dto.getAdults());
+        }
+        if (dto.getChildren() != null) {
+            q.setParameter("children", dto.getChildren());
+            qCount.setParameter("children", dto.getChildren());
         }
 
         int startPosition = pageIndex * pageSize;

@@ -294,8 +294,11 @@ class UserBook extends Component {
         align: "left",
         width: "150",
         render: (rowData) =>
-          rowData.createDate ? (
-            <span>{moment(rowData.checkInDate).format("YYYY-MM-DD")}</span>
+          rowData.checkInDate ? (
+            <span style={
+              new Date(rowData.checkInDate).getDate() == new Date().getDate() && new Date(rowData.checkInDate).getMonth() == new Date().getMonth() && new Date(rowData.checkInDate).getFullYear() == new Date().getFullYear()
+              ? {color: "red"} : {color: "green"}
+            }>{moment(rowData.checkInDate).format("YYYY-MM-DD")}</span>
           ) : (
             ""
           ),

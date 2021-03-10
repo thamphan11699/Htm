@@ -7,6 +7,26 @@ public class RoomSearchDto extends SearchDto{
 
     private Integer typeStatus;
 
+    private Integer adults;
+
+    private Integer children;
+
+    public Integer getAdults() {
+        return adults;
+    }
+
+    public void setAdults(Integer adults) {
+        this.adults = adults;
+    }
+
+    public Integer getChildren() {
+        return children;
+    }
+
+    public void setChildren(Integer children) {
+        this.children = children;
+    }
+
     public String getType() {
         return type;
     }

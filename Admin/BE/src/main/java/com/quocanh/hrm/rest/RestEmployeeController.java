@@ -40,4 +40,10 @@ public class RestEmployeeController {
         employeeService.delete(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/get-employee-user-id/{userId}")
+    public ResponseEntity<EmployeeDto> getEmployeeByUserId(@PathVariable("userId") Long userId) {
+        EmployeeDto result = employeeService.getByUserId(userId);
+        return new ResponseEntity<>(result, result != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+    }
 }
